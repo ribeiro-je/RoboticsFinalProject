@@ -959,15 +959,15 @@
       <pose>-6.21952 7.60342 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>1162 302000000</sim_time>
-      <real_time>47 960267921</real_time>
-      <wall_time>1605500734 759946015</wall_time>
-      <iterations>41384</iterations>
+      <sim_time>1435 622000000</sim_time>
+      <real_time>333 236704317</real_time>
+      <wall_time>1605501020 36382145</wall_time>
+      <iterations>314704</iterations>
       <model name='Ecoforms_Plant_Pot_GP9AAvocado'>
-        <pose>-6.70764 1.65707 -0.000376 0.002721 0.015133 -0.000171</pose>
+        <pose>-6.70764 1.65707 -0.000367 0.002744 0.01513 -0.000171</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>-6.70764 1.65707 -0.000376 0.002721 0.015133 -0.000171</pose>
+          <pose>-6.70764 1.65707 -0.000367 0.002744 0.01513 -0.000171</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 -9.8 0 -0 0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
@@ -994,22 +994,22 @@
         </link>
       </model>
       <model name='Pepsi_Caffeine_Free_Diet_12_CT'>
-        <pose>-5.51849 6.57152 -0.001574 -0.002423 -0.00935 -4.7e-05</pose>
+        <pose>-5.51849 6.57152 -0.001565 -0.002425 -0.009344 -4.7e-05</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>-5.51849 6.57152 -0.001574 -0.002423 -0.00935 -4.7e-05</pose>
+          <pose>-5.51849 6.57152 -0.001565 -0.002425 -0.009344 -4.7e-05</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 -9.8 -0 -0 -0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
       <model name='Reebok_TURBO_RC'>
-        <pose>-7.17641 6.87237 -0.000538 -0.000311 -0.013193 6.6e-05</pose>
+        <pose>-7.17641 6.87237 -0.000538 -0.00031 -0.01319 6.6e-05</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>-7.17641 6.87237 -0.000538 -0.000311 -0.013193 6.6e-05</pose>
+          <pose>-7.17641 6.87237 -0.000538 -0.00031 -0.01319 6.6e-05</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <acceleration>0 0 -9.8 -0 -0 -0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
@@ -1043,23 +1043,33 @@
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
+      <model name='SquareShelf_clone_0_clone'>
+        <pose>-5.4535 7.59682 0 0 -0 0</pose>
+        <scale>1 1 1</scale>
+        <link name='body'>
+          <pose>-5.4535 7.59682 0 0 -0 0</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 0 0 -0 0</acceleration>
+          <wrench>0 0 0 0 -0 0</wrench>
+        </link>
+      </model>
       <model name='Threshold_Porcelain_Teapot_White'>
-        <pose>-5.40965 1.47432 -0.00116 0.005771 0.015008 0.000233</pose>
+        <pose>-5.40965 1.47432 -0.001169 0.005763 0.015037 0.000233</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>-5.40965 1.47432 -0.00116 0.005771 0.015008 0.000233</pose>
+          <pose>-5.40965 1.47432 -0.001169 0.005763 0.015037 0.000233</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0.002067 -0.001114 18.6199 2.18122 1.36067 3.14159</acceleration>
-          <wrench>-0.002067 -0.001114 18.6199 0 -0 0</wrench>
+          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
       <model name='VANS_FIRE_ROASTED_VEGGIE_CRACKERS_GLUTEN_FREE'>
-        <pose>-5.10179 6.85532 -0.000459 -0.004775 -0.007083 2.8e-05</pose>
+        <pose>-5.10179 6.85532 -0.000468 -0.004274 -0.007192 2.5e-05</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>-5.10179 6.85532 -0.000459 -0.004775 -0.007083 2.8e-05</pose>
+          <pose>-5.10179 6.85532 -0.000468 -0.004274 -0.007192 2.5e-05</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 -9.8 -0 -0 -0</acceleration>
+          <acceleration>0 0 -9.8 0 -0 0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
@@ -1074,10 +1084,10 @@
         </link>
       </model>
       <model name='Womens_Hikerfish_Boot_in_Linen_Leather_Sparkle_Suede_QktIyAkonrU'>
-        <pose>-5.48632 1.27589 -8.1e-05 4e-05 -0.006763 1e-06</pose>
+        <pose>-5.48632 1.27589 -8.1e-05 5e-05 -0.006775 1e-06</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>-5.48632 1.27589 -8.1e-05 4e-05 -0.006763 1e-06</pose>
+          <pose>-5.48632 1.27589 -8.1e-05 5e-05 -0.006775 1e-06</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 -9.8 0 -0 0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
@@ -1089,18 +1099,18 @@
         <link name='link'>
           <pose>-7.40613 1.42823 0.149 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 -1.9e-05 0 0.000128 -2e-06 0</acceleration>
-          <wrench>-1e-06 -3.8e-05 1e-06 0 -0 0</wrench>
+          <acceleration>0 1.9e-05 -0 -0.000128 2e-06 0</acceleration>
+          <wrench>1e-06 3.8e-05 -1e-06 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can'>
-        <pose>-6.52797 1.44346 -0.00323 -0.049403 -0.002785 -0.001457</pose>
+        <pose>-6.52799 1.44349 -0.003404 -0.040086 0.006348 -0.001441</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-6.52797 1.44346 -0.00323 -0.049403 -0.002785 -0.001457</pose>
+          <pose>-6.52799 1.44349 -0.003404 -0.040086 0.006348 -0.001441</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>-0 1e-06 -0 -2e-05 -7e-06 -1e-06</acceleration>
-          <wrench>-0 0 -0 0 -0 0</wrench>
+          <acceleration>-0.002974 0.001903 -0.000256 -0.033664 -0.052731 -0.005056</acceleration>
+          <wrench>-0.00116 0.000742 -0.0001 0 -0 0</wrench>
         </link>
       </model>
       <model name='grey_wall'>
@@ -1204,20 +1214,20 @@
         </link>
       </model>
       <model name='table_marbleskinny'>
-        <pose>-5.51098 7.2636 0.648 0 -0 0</pose>
+        <pose>-4.78459 7.20905 0.648 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-5.51098 7.2636 0.648 0 -0 0</pose>
+          <pose>-4.78459 7.20905 0.648 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
         </link>
       </model>
       <model name='telephone_pole'>
-        <pose>-5.61533 5.01147 0 0 -0 0</pose>
+        <pose>-5.24728 4.96227 0 0 -0 0</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-5.61533 5.01147 0 0 -0 0</pose>
+          <pose>-5.24728 4.96227 0 0 -0 0</pose>
           <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 0 0 -0 0</acceleration>
           <wrench>0 0 0 0 -0 0</wrench>
@@ -1903,10 +1913,47 @@
     </model>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>65.8277 -12.5093 24.1514 0 0.240819 2.78195</pose>
+        <pose>3.82611 4.21875 6.95505 0 0.572819 3.11795</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
     </gui>
+    <model name='SquareShelf_clone_0_clone'>
+      <static>1</static>
+      <link name='body'>
+        <pose>0 0 0 0 -0 0</pose>
+        <visual name='visual'>
+          <geometry>
+            <mesh>
+              <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/SquareShelf/2/files/meshes/SquareShelf.obj</uri>
+            </mesh>
+          </geometry>
+        </visual>
+        <collision name='collision'>
+          <geometry>
+            <mesh>
+              <uri>https://fuel.ignitionrobotics.org/1.0/OpenRobotics/models/SquareShelf/2/files/meshes/SquareShelf_Col.obj</uri>
+            </mesh>
+          </geometry>
+          <max_contacts>10</max_contacts>
+          <surface>
+            <contact>
+              <ode/>
+            </contact>
+            <bounce/>
+            <friction>
+              <torsional>
+                <ode/>
+              </torsional>
+              <ode/>
+            </friction>
+          </surface>
+        </collision>
+        <self_collide>0</self_collide>
+        <enable_wind>0</enable_wind>
+        <kinematic>0</kinematic>
+      </link>
+      <pose>-5.4535 7.59682 0 0 -0 0</pose>
+    </model>
   </world>
 </sdf>
