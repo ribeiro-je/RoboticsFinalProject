@@ -1,5 +1,3 @@
-<?xml version="1.0" ?>
-
 <sdf version='1.7'>
   <world name='default'>
     <light name='sun' type='directional'>
@@ -961,18 +959,18 @@
       <pose>-6.21952 7.60342 0 0 -0 0</pose>
     </model>
     <state world_name='default'>
-      <sim_time>1120 918000000</sim_time>
-      <real_time>1779 72298073</real_time>
-      <wall_time>1605500225 391223063</wall_time>
-      <iterations>1120918</iterations>
+      <sim_time>1162 302000000</sim_time>
+      <real_time>47 960267921</real_time>
+      <wall_time>1605500734 759946015</wall_time>
+      <iterations>41384</iterations>
       <model name='Ecoforms_Plant_Pot_GP9AAvocado'>
-        <pose>-6.70764 1.65707 -0.006729 0.002736 0.015134 -0.000171</pose>
+        <pose>-6.70764 1.65707 -0.000376 0.002721 0.015133 -0.000171</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>-6.70764 1.65707 -0.006729 0.002736 0.015134 -0.000171</pose>
-          <velocity>0 1e-06 0.009861 0.001653 -0.001228 0</velocity>
-          <acceleration>0.000133 -7.1e-05 19.7178 -0.193331 -0.361343 1e-06</acceleration>
-          <wrench>0.000133 -7.1e-05 19.7178 0 -0 0</wrench>
+          <pose>-6.70764 1.65707 -0.000376 0.002721 0.015133 -0.000171</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
       <model name='Fridge'>
@@ -986,31 +984,31 @@
         </link>
       </model>
       <model name='KitchenCountertop'>
-        <pose>-7.77652 6.20981 -1e-06 2e-06 2e-06 -0.008662</pose>
+        <pose>-7.77652 6.20981 1e-06 -1e-06 1e-06 -0.008662</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-7.77652 6.20981 -1e-06 2e-06 2e-06 -0.008662</pose>
-          <velocity>-0 -0 -0.001319 0.002963 0.00124 0</velocity>
-          <acceleration>-0 -8e-06 -1.76497 -1.50355 1.28253 -6e-06</acceleration>
-          <wrench>-0 -8e-06 -1.76497 0 -0 0</wrench>
+          <pose>-7.77652 6.20981 1e-06 -1e-06 1e-06 -0.008662</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>1e-06 2e-06 1.36643 -1.91162 1.16964 1e-06</acceleration>
+          <wrench>1e-06 2e-06 1.36643 0 -0 0</wrench>
         </link>
       </model>
       <model name='Pepsi_Caffeine_Free_Diet_12_CT'>
-        <pose>-5.51849 6.57152 -0.014 -0.002426 -0.009343 -4.2e-05</pose>
+        <pose>-5.51849 6.57152 -0.001574 -0.002423 -0.00935 -4.7e-05</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>-5.51849 6.57152 -0.014 -0.002426 -0.009343 -4.2e-05</pose>
-          <velocity>-1e-06 1e-06 2.9e-05 0.000466 0.000378 -0</velocity>
-          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <pose>-5.51849 6.57152 -0.001574 -0.002423 -0.00935 -4.7e-05</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -9.8 -0 -0 -0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
       <model name='Reebok_TURBO_RC'>
-        <pose>-7.17641 6.87237 -0.011255 -0.00031 -0.013195 5.8e-05</pose>
+        <pose>-7.17641 6.87237 -0.000538 -0.000311 -0.013193 6.6e-05</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>-7.17641 6.87237 -0.011255 -0.00031 -0.013195 5.8e-05</pose>
-          <velocity>-0 -0 -0.000152 -0.000406 0.00075 -0</velocity>
+          <pose>-7.17641 6.87237 -0.000538 -0.000311 -0.013193 6.6e-05</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
           <acceleration>0 0 -9.8 0 -0 0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
@@ -1046,23 +1044,23 @@
         </link>
       </model>
       <model name='Threshold_Porcelain_Teapot_White'>
-        <pose>-5.40965 1.47432 -0.009366 0.005802 0.015015 0.000231</pose>
+        <pose>-5.40965 1.47432 -0.00116 0.005771 0.015008 0.000233</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>-5.40965 1.47432 -0.009366 0.005802 0.015015 0.000231</pose>
-          <velocity>-0 -1e-06 -2.7e-05 -0.000573 0.000123 0</velocity>
-          <acceleration>-0 -0 -9.79983 -6e-06 1.1e-05 0</acceleration>
-          <wrench>-0 -0 -9.79983 0 -0 0</wrench>
+          <pose>-5.40965 1.47432 -0.00116 0.005771 0.015008 0.000233</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>-0.002067 -0.001114 18.6199 2.18122 1.36067 3.14159</acceleration>
+          <wrench>-0.002067 -0.001114 18.6199 0 -0 0</wrench>
         </link>
       </model>
       <model name='VANS_FIRE_ROASTED_VEGGIE_CRACKERS_GLUTEN_FREE'>
-        <pose>-5.10179 6.85532 -0.029082 -0.004442 -0.007156 2.6e-05</pose>
+        <pose>-5.10179 6.85532 -0.000459 -0.004775 -0.007083 2.8e-05</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>-5.10179 6.85532 -0.029082 -0.004442 -0.007156 2.6e-05</pose>
-          <velocity>0 -0 4e-06 -0.000258 -6.6e-05 0</velocity>
-          <acceleration>0.000258 -5.7e-05 0.009558 -0.12384 -0.562858 0</acceleration>
-          <wrench>0.000258 -5.7e-05 0.009558 0 -0 0</wrench>
+          <pose>-5.10179 6.85532 -0.000459 -0.004775 -0.007083 2.8e-05</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -9.8 -0 -0 -0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
       <model name='Womens_Betty_Chukka_Boot_in_Navy_Jersey_Sequin_y0SsHk7dKUX'>
@@ -1070,29 +1068,19 @@
         <scale>1 1 1</scale>
         <link name='link_0'>
           <pose>-5.82594 1.44348 -9e-05 -0.001881 0.00161 -2e-06</pose>
-          <velocity>-0 -0 -0.000462 -0.000193 9.6e-05 0</velocity>
-          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>0 0 -9.8 -0 -0 -0</acceleration>
           <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
       <model name='Womens_Hikerfish_Boot_in_Linen_Leather_Sparkle_Suede_QktIyAkonrU'>
-        <pose>-5.48632 1.27589 -7.1e-05 7.5e-05 -0.006815 1e-06</pose>
+        <pose>-5.48632 1.27589 -8.1e-05 4e-05 -0.006763 1e-06</pose>
         <scale>1 1 1</scale>
         <link name='link_0'>
-          <pose>-5.48632 1.27589 -7.1e-05 7.5e-05 -0.006815 1e-06</pose>
-          <velocity>-0 0 0.009888 0.000158 0.000259 0</velocity>
-          <acceleration>7e-06 -1.4e-05 19.7122 -0.198775 -0.104154 0</acceleration>
-          <wrench>7e-06 -1.4e-05 19.7122 0 -0 0</wrench>
-        </link>
-      </model>
-      <model name='asphalt_plane'>
-        <pose>11.4935 19.0588 0 0 -0 0</pose>
-        <scale>1 1 1</scale>
-        <link name='link'>
-          <pose>11.4935 19.0588 0 0 -0 0</pose>
+          <pose>-5.48632 1.27589 -8.1e-05 4e-05 -0.006763 1e-06</pose>
           <velocity>0 0 0 0 -0 0</velocity>
-          <acceleration>0 0 0 0 -0 0</acceleration>
-          <wrench>0 0 0 0 -0 0</wrench>
+          <acceleration>0 0 -9.8 0 -0 0</acceleration>
+          <wrench>0 0 -9.8 0 -0 0</wrench>
         </link>
       </model>
       <model name='cardboard_box'>
@@ -1100,19 +1088,19 @@
         <scale>1 1 1</scale>
         <link name='link'>
           <pose>-7.40613 1.42823 0.149 0 -0 0</pose>
-          <velocity>-0 -0 5e-06 0 -0 0</velocity>
-          <acceleration>-0 -1.9e-05 -0 0.000128 -2e-06 0</acceleration>
-          <wrench>-1e-06 -3.8e-05 -1e-06 0 -0 0</wrench>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>-0 -1.9e-05 0 0.000128 -2e-06 0</acceleration>
+          <wrench>-1e-06 -3.8e-05 1e-06 0 -0 0</wrench>
         </link>
       </model>
       <model name='coke_can'>
-        <pose>-6.5281 1.44333 -0.014969 -0.036727 0.008266 -0.000707</pose>
+        <pose>-6.52797 1.44346 -0.00323 -0.049403 -0.002785 -0.001457</pose>
         <scale>1 1 1</scale>
         <link name='link'>
-          <pose>-6.5281 1.44333 -0.014969 -0.036727 0.008266 -0.000707</pose>
-          <velocity>6e-06 -0.000314 1.8e-05 -0.001034 -2.1e-05 -1e-06</velocity>
-          <acceleration>0.09341 -0.093659 -0.001219 -1.48766 1.4863 -2.97614</acceleration>
-          <wrench>0.03643 -0.036527 -0.000475 0 -0 0</wrench>
+          <pose>-6.52797 1.44346 -0.00323 -0.049403 -0.002785 -0.001457</pose>
+          <velocity>0 0 0 0 -0 0</velocity>
+          <acceleration>-0 1e-06 -0 -2e-05 -7e-06 -1e-06</acceleration>
+          <wrench>-0 0 -0 0 -0 0</wrench>
         </link>
       </model>
       <model name='grey_wall'>
@@ -1136,7 +1124,7 @@
         </link>
       </model>
       <model name='grey_wall_clone_0_clone'>
-        <pose>-1.68952 -2.76039 0.220836 0 0 -0.018951</pose>
+        <pose>-1.68952 -2.76039 0.22084 0 0 -0.018951</pose>
         <scale>1 1 1</scale>
         <link name='link'>
           <pose>-1.68952 -2.76039 1.62084 0 0 -0.018951</pose>
@@ -1146,7 +1134,7 @@
         </link>
       </model>
       <model name='grey_wall_clone_0_clone_clon23re'>
-        <pose>-7.60849 1.1132 0.224183 0 0 -0.018951</pose>
+        <pose>-7.60849 1.1132 0.22418 0 0 -0.018951</pose>
         <scale>1 1 1</scale>
         <link name='link'>
           <pose>-7.60849 1.1132 1.62418 0 0 -0.018951</pose>
@@ -1156,7 +1144,7 @@
         </link>
       </model>
       <model name='grey_wall_clone_0_clone_clon23re_clone'>
-        <pose>-5.4701 -0.80933 0.224183 0 0 -1.56332</pose>
+        <pose>-5.4701 -0.80933 0.22418 0 0 -1.56332</pose>
         <scale>1 1 1</scale>
         <link name='link'>
           <pose>-5.4701 -0.80933 1.62418 0 0 -1.56332</pose>
@@ -1166,7 +1154,7 @@
         </link>
       </model>
       <model name='grey_wall_clone_0_clone_clone_clone'>
-        <pose>-8.98124 3.39991 0.006151 0 0 -0.018951</pose>
+        <pose>-8.98124 3.39991 0.00615 0 0 -0.018951</pose>
         <scale>1 1 1</scale>
         <link name='link'>
           <pose>-8.98124 3.39991 1.40615 0 0 -0.018951</pose>
@@ -1206,7 +1194,7 @@
         </link>
       </model>
       <model name='jansport_backpack_red'>
-        <pose>-7.3406 3.6345 -0 0 -0 2.10414</pose>
+        <pose>-7.3406 3.6345 0 0 -0 2.10414</pose>
         <scale>1 1 1</scale>
         <link name='link'>
           <pose>-7.3406 3.6345 -0 0 -0 2.10414</pose>
@@ -1580,7 +1568,7 @@
             </shader>
             <script>
               <name>ModelPreview_15::link::visual_MATERIAL_</name>
-              <uri>__default__</uri>
+              <uri>/home/jenny/Documents/Robotics/RoboticsFinalProject/worlds/__default__</uri>
             </script>
             <ambient>0 0 0 1</ambient>
             <diffuse>0 0 0 1</diffuse>
@@ -1913,53 +1901,9 @@
       <allow_auto_disable>1</allow_auto_disable>
       <pose>-3.74105 0.071334 0.224183 0 0 -0.018951</pose>
     </model>
-    <model name='asphalt_plane'>
-      <static>1</static>
-      <link name='link'>
-        <collision name='collision'>
-          <geometry>
-            <box>
-              <size>20 20 0.1</size>
-            </box>
-          </geometry>
-          <max_contacts>10</max_contacts>
-          <surface>
-            <contact>
-              <ode/>
-            </contact>
-            <bounce/>
-            <friction>
-              <torsional>
-                <ode/>
-              </torsional>
-              <ode/>
-            </friction>
-          </surface>
-        </collision>
-        <visual name='visual'>
-          <cast_shadows>0</cast_shadows>
-          <geometry>
-            <box>
-              <size>20 20 0.1</size>
-            </box>
-          </geometry>
-          <material>
-            <script>
-              <uri>model://asphalt_plane/materials/scripts</uri>
-              <uri>model://asphalt_plane/materials/textures</uri>
-              <name>vrc/asphalt</name>
-            </script>
-          </material>
-        </visual>
-        <self_collide>0</self_collide>
-        <enable_wind>0</enable_wind>
-        <kinematic>0</kinematic>
-      </link>
-      <pose>11.4935 19.0588 0 0 -0 0</pose>
-    </model>
     <gui fullscreen='0'>
       <camera name='user_camera'>
-        <pose>2.46545 2.21829 3.5526 0 0.240819 2.78195</pose>
+        <pose>65.8277 -12.5093 24.1514 0 0.240819 2.78195</pose>
         <view_controller>orbit</view_controller>
         <projection_type>perspective</projection_type>
       </camera>
