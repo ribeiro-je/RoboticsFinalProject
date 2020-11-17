@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="led_sensor">
+    
+    <link name='link'>
+        <light name='lamp' type='spot'>
+          <pose>0 0 0.0 0 -1.7 0</pose>
+          <attenuation>
+            <range>30</range>
+            <linear>0.025</linear>
+          </attenuation>
+          <diffuse>0.5 1 1 1</diffuse>
+          <specular>1 1 1 1</specular>
+          <spot>
+            <inner_angle>0.3</inner_angle>
+            <outer_angle>0.35</outer_angle>
+            <falloff>1</falloff>
+          </spot>
+          <direction>0 0 -1</direction>
+        </light>
+        <visual name='lamp'>
+          <geometry>
+            <sphere>
+              <radius>0.025</radius>
+            </sphere>
+          </geometry>
+          <transparency>0</transparency>
+          <material>
+            <ambient>0.5 1 1 1</ambient>
+            <diffuse>0.5 1 1 1</diffuse>
+            <specular>1 1 1 1</specular>
+            <emissive>0.5 1 1 1</emissive>
+          </material>
+        </visual>
+      
+      <plugin name='light_control' filename='libLedPlugin.so'>
+        <enable>true</enable>
+        <light>
+          <id>link/lamp</id>
+          <duration>0.5</duration>
+          <interval>1</interval>
+          <color>1 0 0</color>
+          <enable>true</enable>
+        </light>
+      </plugin>
+      </link>
+  </model>
+</sdf>
