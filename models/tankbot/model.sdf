@@ -299,10 +299,23 @@
       </axis>
     </joint>
 
+<include>
+      <uri>model://ultrasonic_sensor</uri>
+      <pose>
+        0.18 0.0 0.24
+        0.0 0.0 0.0
+      </pose>
+    </include>
+
+    <joint name="sonar_joint" type="fixed">
+      <child>ultrasonic_sensor::link</child>
+      <parent>chassis</parent>
+    </joint>
+    
      <include>
       <uri>model://led_sensor</uri>
       <pose>
-        0.18 0.0 0.24
+        0.18 0.0 0.34
         0.0 0.0 0.0
       </pose>
     </include>
