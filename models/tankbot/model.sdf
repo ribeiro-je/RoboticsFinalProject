@@ -315,7 +315,7 @@
      <include>
       <uri>model://led_sensor</uri>
       <pose>
-        0.18 0.0 0.34
+        -0.1 0.0 0.25
         0.0 0.0 0.0
       </pose>
     </include>
