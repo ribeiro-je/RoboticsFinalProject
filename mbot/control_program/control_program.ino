@@ -6,9 +6,9 @@
 #include <Pixy2.h>
 #include <Pixy2I2C.h>
 
-// #include "grid.hh"
-// #include "viz.hh"
-// #include "pose.hh"
+ #include "grid.hh"
+ #include "viz.hh"
+ #include "pose.hh"
 
 MeEncoderOnBoard Encoder_1(SLOT1);
 MeEncoderOnBoard Encoder_2(SLOT2);
@@ -154,11 +154,11 @@ void loop()
   }
 
   // up to 2.5 meters away? maybe 100 would work better inside though...
-  if (ultrasonic_8.distance_8.distanceCm() < 250)
+  if (ultrasonic_8.distanceCm() < 250)
   {
-    // Pose pose(robot->pos_x, robot->pos_y, robot->pos_t); // figure out of to get pose
-    // float distance = ultrasonic_8.distanceCm() / 100; this should be meters I think? so / 100? test to confirm tho
-    // float angle = 0.0; i think 0 bc always straight ahead
-    // grid_apply_hit(distance, angle, pose);
+     Pose p = pose(robot->pos_x, robot->pos_y, robot->pos_t); // figure out of to get pose
+     float distance = ultrasonic_8.distanceCm() / 100; this should be meters I think? so / 100? test to confirm tho
+     float angle = 0.0; i think 0 bc always straight ahead
+     grid_apply_hit(distance, angle, pose);
   }
 }
