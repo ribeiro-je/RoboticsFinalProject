@@ -87,6 +87,15 @@
       <elevation>0</elevation>
       <heading_deg>0</heading_deg>
     </spherical_coordinates>
+    <model name="tankbot0">
+      <pose>0 0 0 0 0 0</pose>
+
+      <include>
+        <uri>model://tankbot</uri>
+      </include>
+
+      <plugin name="tankbot_control" filename="libtank_control_plugin.so"/>
+    </model>
     <model name='coke_can'>
       <link name='link'>
         <inertial>

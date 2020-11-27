@@ -17,6 +17,7 @@ using namespace std;
 //typedef pair<int, int> coords;
 
 static std::map<coords, int> grid;
+static std::map<coords, std::string> objects;
 static std::vector<coords> path;
 
 static int
@@ -145,37 +146,51 @@ void grid_apply_hit(float dist, float angle, Pose pose)
          << " => " << coords_to_s(hk) << endl;
     */
 }
-// void grid_apply_hit(LaserHit hit, Pose pose)
-// {
-//     set<coords> cells;
 
-//     for (float ds = 0.0f; ds < (hit.range - CELL_SIZE - 0.1); ds += 0.1f)
-//     {
-//         float xx = pose.x + ds * cos(pose.t + hit.angle);
-//         float yy = pose.y + ds * sin(pose.t + hit.angle);
-//         cells.insert(key(xx, yy));
-//     }
+void grid_apply_hit_color(float dist, float angle, Pose pose, std::string color)
+{
+    set<coords> cells;
 
-//     for (auto cell : cells)
-//     {
-//         grid_inc(cell, -2);
-//     }
+    for (float ds = 0.0f; ds < (dist - CELL_SIZE - 0.1); ds += 0.1f)
+    {
+        float xx = pose.x + ds * cos(pose.t + angle);
+        float yy = pose.y + ds * sin(pose.t + angle);
+        cells.insert(key(xx, yy));
+    }
 
-//     float hx = pose.x + hit.range * cos(pose.t + hit.angle);
-//     float hy = pose.y + hit.range * sin(pose.t + hit.angle);
-//     coords hk = key(hx, hy);
-//     grid_inc(hk, +8);
+    for (auto cell : cells)
+    {
+        grid_inc(cell, -2);
+    }
 
-//     for (auto cell : neibs(hk))
-//     {
-//         grid_inc(cell, +4);
-//     }
+    float hx = pose.x + dist * cos(pose.t + angle);
+    float hy = pose.y + dist * sin(pose.t + angle);
+    coords hk = key(hx, hy);
+    grid_inc(hk, +8);
 
-//     /*
-//     cout << "Hit @ " << hx << "," << hy
-//          << " => " << coords_to_s(hk) << endl;
-//     */
-// }
+    objects.insert(std::pair(hk, color));
+}
+
+int stringToInt(std::string color)
+{
+    if (color == "red")
+    {
+        return 1;
+    }
+    if (color == "orange")
+    {
+        return 2;
+    }
+    if (color == "brown")
+    {
+        return 3;
+    }
+    if (color == "blue")
+    {
+        return 4;
+    }
+    return 0;
+}
 
 Mat grid_view(Pose pose, std::vector<coords> path)
 {
@@ -203,8 +218,33 @@ Mat grid_view(Pose pose, std::vector<coords> path)
             coords kk = key(xx, yy);
             int vv = 250 - (2.5 * grid_get(kk));
 
-            // Walls
-            gv.at<Vec3b>(jj, ii) = Vec3b(vv, vv, vv);
+            // if object set correct color
+            if (objects.find(kk) != objects.end())
+            {
+                std::string color = objects[kk];
+                switch (stringToInt(color))
+                {
+                case 1: // red
+                    gv.at<Vec3b>(jj, ii) = Vec3b(255, 0, 0);
+                    break;
+                case 2: // orange
+                    gv.at<Vec3b>(jj, ii) = Vec3b(255, 51, 51);
+                    break;
+                case 3: // brown
+                    gv.at<Vec3b>(jj, ii) = Vec3b(165, 42, 42);
+                    break;
+                case 4: // blue
+                    gv.at<Vec3b>(jj, ii) = Vec3b(60, 255, 225);
+                    break;
+                default:
+                    break;
+                }
+            }
+            else
+            {
+                // Walls
+                gv.at<Vec3b>(jj, ii) = Vec3b(vv, vv, vv);
+            }
 
             if (path_cells.find(kk) != path_cells.end())
             {
