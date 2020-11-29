@@ -9,14 +9,14 @@
 #include <algorithm>
 #include <cassert>
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "grid.hh"
 
 using namespace std;
 
-//typedef pair<int, int> coords;
-
-static std::map<coords, int> grid;
+static std::map<coords, int> grid; // if int is 0 then unkown spot
+static std::map<coords, std::string> objects;
 static std::vector<coords> path;
 
 static int
@@ -137,7 +137,7 @@ void grid_apply_hit(float dist, float angle, Pose pose)
 
     for (auto cell : neibs(hk))
     {
-        grid_inc(cell, +4);
+        grid_inc(cell, +6);
     }
 
     /*
@@ -145,37 +145,62 @@ void grid_apply_hit(float dist, float angle, Pose pose)
          << " => " << coords_to_s(hk) << endl;
     */
 }
-// void grid_apply_hit(LaserHit hit, Pose pose)
-// {
-//     set<coords> cells;
 
-//     for (float ds = 0.0f; ds < (hit.range - CELL_SIZE - 0.1); ds += 0.1f)
-//     {
-//         float xx = pose.x + ds * cos(pose.t + hit.angle);
-//         float yy = pose.y + ds * sin(pose.t + hit.angle);
-//         cells.insert(key(xx, yy));
-//     }
+void grid_apply_hit_color(float dist, float angle, Pose pose, std::string color)
+{
+    set<coords> cells;
 
-//     for (auto cell : cells)
-//     {
-//         grid_inc(cell, -2);
-//     }
+    for (float ds = 0.0f; ds < (dist - CELL_SIZE - 0.1); ds += 0.1f)
+    {
+        float xx = pose.x + ds * cos(pose.t + angle);
+        float yy = pose.y + ds * sin(pose.t + angle);
+        cells.insert(key(xx, yy));
+    }
 
-//     float hx = pose.x + hit.range * cos(pose.t + hit.angle);
-//     float hy = pose.y + hit.range * sin(pose.t + hit.angle);
-//     coords hk = key(hx, hy);
-//     grid_inc(hk, +8);
+    for (auto cell : cells)
+    {
+        grid_inc(cell, -2);
+    }
 
-//     for (auto cell : neibs(hk))
-//     {
-//         grid_inc(cell, +4);
-//     }
+    float hx = pose.x + dist * cos(pose.t + angle);
+    float hy = pose.y + dist * sin(pose.t + angle);
+    coords hk = key(hx, hy);
+    grid_inc(hk, +8);
+    for (auto cell : neibs(hk))
+    {
+        grid_inc(cell, +4);
+    }
+    objects.insert(std::pair(hk, color));
+}
 
-//     /*
-//     cout << "Hit @ " << hx << "," << hy
-//          << " => " << coords_to_s(hk) << endl;
-//     */
-// }
+int stringToInt(std::string color)
+{
+    if (color == "red")
+    {
+        return 1;
+    }
+    if (color == "orange")
+    {
+        return 2;
+    }
+    if (color == "brown")
+    {
+        return 3;
+    }
+    if (color == "blue")
+    {
+        return 4;
+    }
+    if (color == "yellow")
+    {
+        return 5;
+    }
+    if (color == "green")
+    {
+        return 6;
+    }
+    return 0;
+}
 
 Mat grid_view(Pose pose, std::vector<coords> path)
 {
@@ -203,8 +228,39 @@ Mat grid_view(Pose pose, std::vector<coords> path)
             coords kk = key(xx, yy);
             int vv = 250 - (2.5 * grid_get(kk));
 
-            // Walls
-            gv.at<Vec3b>(jj, ii) = Vec3b(vv, vv, vv);
+            // if object set correct color
+            if (objects.find(kk) != objects.end())
+            {
+                std::string color = objects[kk];
+                switch (stringToInt(color))
+                {
+                case 1: // red
+                    gv.at<Vec3b>(jj, ii) = Vec3b(255, 0, 0);
+                    break;
+                case 2: // orange
+                    gv.at<Vec3b>(jj, ii) = Vec3b(255, 51, 51);
+                    break;
+                case 3: // brown
+                    gv.at<Vec3b>(jj, ii) = Vec3b(165, 42, 42);
+                    break;
+                case 4: // blue
+                    gv.at<Vec3b>(jj, ii) = Vec3b(0, 191, 255);
+                    break;
+                case 5: // yellow
+                    gv.at<Vec3b>(jj, ii) = Vec3b(255, 255, 0);
+                    break;
+                case 6: // green
+                    gv.at<Vec3b>(jj, ii) = Vec3b(173, 255, 47);
+                    break;
+                default:
+                    break;
+                }
+            }
+            else
+            {
+                // Walls
+                gv.at<Vec3b>(jj, ii) = Vec3b(vv, vv, vv);
+            }
 
             if (path_cells.find(kk) != path_cells.end())
             {
@@ -338,13 +394,6 @@ std::vector<coords> grid_find_path(float x0, float y0, float x1, float y1)
     reverse(path.begin(), path.end());
 
     return path;
-    /*
-    cout << endl << "=== path ===" << endl;
-    for (auto item : path) {
-        cout << coords_to_s(item) << " ";
-    }
-    cout << endl;
-    */
 }
 
 static float
@@ -382,4 +431,119 @@ float grid_goal_angle(Pose pose, std::vector<coords> path)
          << "ra = " << ra << endl;
 
     return ra;
+}
+
+bool isSafe(coords point)
+{
+    int hits = grid_get(point);
+    if (hits > 10)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+std::vector<coords> explore(float x0, float y0)
+{
+    coords cell0 = key(x0, y0);
+    bool done = false;
+    set<coords> seen;
+    search_queue queue;
+    map<coords, float> costs;
+    map<coords, coords> prev;
+
+    seen.insert(cell0);
+    costs[cell0] = 0.0f;
+    queue.push(SearchCell(cell0, 1.0f));
+
+    // get list of neighbors
+    auto listNieb = neibs(cell0);
+
+    auto randomNiebCoord = key(x0, y0);
+
+    // get a random nieghbor up to 5 away
+    randomNiebCoord.first = randomNiebCoord.first - (rand() % 5);
+    randomNiebCoord.second = randomNiebCoord.second + (rand() % 5);
+
+    // check if neighbhor is safe if not get another
+    int i = 0;
+    while (!isSafe(randomNiebCoord) && i > 10)
+    {
+        randomNiebCoord.first = randomNiebCoord.first - (rand() % 5);
+        randomNiebCoord.second = randomNiebCoord.second + (rand() % 5);
+        i++;
+    }
+
+    // tried all neibhors
+    if (i >= 10)
+    {
+        // pick valuable node and go shortest path to it
+        // if stuck at the point use A* to get shortest path to valuable node
+        // the start is always valuable
+        // enchanced bc takes shortest path and does not retrace steps
+        cout << "No more safe paths - going back to valuable node" << endl;
+        return grid_find_path(x0, y0, 0, 0);
+    }
+
+    coords cell1 = randomNiebCoord;
+    cout << "xx " << randomNiebCoord.first << " yy " << randomNiebCoord.second << endl;
+
+    // calculating costs to get path to choosen random node
+    while (!queue.empty())
+    {
+        SearchCell sc = queue.top();
+        queue.pop();
+
+        coords cc = sc.cell;
+        //cout << "expanding " << coords_to_s(cc) << endl;
+
+        for (auto nn : neibs(cc))
+        {
+            if (seen.find(nn) != seen.end())
+            {
+                continue;
+            }
+
+            seen.insert(nn);
+            prev[nn] = cc;
+            costs[nn] = costs[cc] + distance(cc, nn);
+
+            float penalty = 1.0f;
+
+            int vv = grid_get(nn);
+            if (vv > 10)
+            {
+                penalty += vv * (10 * 1000 * 1000);
+            }
+
+            for (auto n2 : neibs(nn))
+            {
+                int v2 = grid_get(n2);
+                penalty += iclamp(0, 3 * v2, 30);
+            }
+
+            float score = penalty + (costs[cc] + distance(nn, cell1));
+            queue.push(SearchCell(nn, score));
+        }
+    }
+
+    if (!done)
+    {
+        // if no path found go back to valuable node - backtrace enchanment step
+        cout << "no path found" << endl;
+        return grid_find_path(x0, y0, 0, 0);
+    }
+
+    coords cc = cell1;
+
+    while (cc != cell0)
+    {
+        path.push_back(cc);
+        cc = prev[cc];
+    }
+
+    reverse(path.begin(), path.end());
+
+    return path;
 }

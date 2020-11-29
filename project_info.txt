@@ -1,0 +1,35 @@
+
+Quesitons for Robotics Final Project
+
+This file should be filled in once for your team and submited once each to the three project assignments: Code, Demo, Presentation
+
+Make sure to answer all the questions here to qualify for full project credit.
+
+
+1. What are the names of all members of your team?
+Jennifer Ribeiro, Margarita Gubanova, Karan Machado
+
+2. In no more than three sentences, what was your project?
+Our robot will explore a given space using the Improved Back____. While exploring it will be looking for specific objects it has been trained with and will ding once the objects are found. Additionally, it will label the object on the map the robot is creating while moving.
+
+3. What did each team member do to contribute to the project?
+Margarita mainly worked on writing and testing out code on the physical robot as she was the one to purchase it (she also built it). Jenny worked on the simulation enviorment and control code for the simulator. Karan worked on adding the led and plugin for the robot. 
+
+4. What is the URL of your git repository with all your project code and your
+presentation notes / slides?
+
+https://github.com/ribeiro-je/RoboticsFinalProject
+
+5. Which component do you think was the most innately difficult to build?
+It was the most difficult to get the robot working with the control program. It proved diffucult using Margaritas MAC and she had to go through various solutions to get it working. Additionally it was difficult to work with Gazebo as there is little documentation and it is taxing on our laptops to run.
+
+6. What's the URL to your Demo video?
+
+
+7. What's the URL to your Presentation video?
+
+
+8. Did you share any generally useful example code with other teams to try for
+a bonus point? If so, what's the Git repo and Piazza post URLs?
+
+n/a

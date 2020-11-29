@@ -299,7 +299,7 @@
       </axis>
     </joint>
 
-<include>
+    <include>
       <uri>model://ultrasonic_sensor</uri>
       <pose>
         0.18 0.0 0.24
@@ -312,6 +312,19 @@
       <parent>chassis</parent>
     </joint>
     
+    <include>
+      <uri>model://camera_sensor</uri>
+      <pose>
+        0.2 0.0 0.3
+        0.0 0.0 0.0
+      </pose>
+    </include>
+
+    <joint name="camera_joint" type="fixed">
+      <child>camera_sensor::link</child>
+      <parent>chassis</parent>
+    </joint>
+
      <include>
       <uri>model://led_sensor</uri>
       <pose>
@@ -325,18 +338,6 @@
       <parent>chassis</parent>
     </joint>
 
-    <include>
-      <uri>model://camera_sensor</uri>
-      <pose>
-        0.2 0.0 0.3
-        0.0 0.0 0.0
-      </pose>
-    </include>
-
-    <joint name="camera_joint" type="fixed">
-      <child>camera_sensor::link</child>
-      <parent>chassis</parent>
-    </joint>
-    
+    <plugin name="tankbot_control" filename='libtank_control_plugin.so'/>
   </model>
 </sdf>

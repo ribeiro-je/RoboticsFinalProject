@@ -23,12 +23,14 @@ const double GOAL_Y = 0.0;
 double
 clamp(double xmin, double xx, double xmax)
 {
-    if (xx < xmin) return xmin;
-    if (xx > xmax) return xmax;
+    if (xx < xmin)
+        return xmin;
+    if (xx > xmax)
+        return xmax;
     return xx;
 }
 
-Robot::Robot(int argc, char* argv[], void (*cb)(Robot*))
+Robot::Robot(int argc, char *argv[], void (*cb)(Robot *))
     : on_update(cb), task_done(false)
 {
     client::setup(argc, argv);
@@ -42,22 +44,19 @@ Robot::Robot(int argc, char* argv[], void (*cb)(Robot*))
         string("~/tankbot0/tankbot/ultrasonic_sensor/link/sonar/sonar"),
         &Robot::on_scan,
         this,
-        false
-    );
+        false);
 
     frame_sub = node->Subscribe(
         string("~/tankbot0/tankbot/camera_sensor/link/camera/image"),
         &Robot::on_frame,
         this,
-        false
-    );
+        false);
 
     pose_sub = node->Subscribe(
         string("~/tankbot0/pose"),
         &Robot::on_pose,
         this,
-        false
-    );
+        false);
 
     cout << "robot created" << endl;
 }
@@ -68,13 +67,14 @@ Robot::~Robot()
     cout << "robot destroyed" << endl;
 }
 
-void
-Robot::do_stuff()
+void Robot::do_stuff()
 {
-    while (!task_done) {
+    while (!task_done)
+    {
         gazebo::common::Time::MSleep(10);
 
-        if (this->at_goal()) {
+        if (this->at_goal())
+        {
             this->set_vel(0.0, 0.0);
             this->done();
         }
@@ -83,22 +83,19 @@ Robot::do_stuff()
     gazebo::common::Time::MSleep(100);
 }
 
-bool
-Robot::at_goal()
+bool Robot::at_goal()
 {
     double dx = GOAL_X - this->pos_x;
     double dy = GOAL_Y - this->pos_y;
     return (abs(dx) < 0.75 && abs(dy) < 0.75);
 }
 
-void
-Robot::done()
+void Robot::done()
 {
     this->task_done = true;
 }
 
-void
-Robot::set_vel(double lvel, double rvel)
+void Robot::set_vel(double lvel, double rvel)
 {
     auto r_error = lvel * ((rand() % 21) - 10) * 0.01;
     auto l_error = rvel * ((rand() % 21) - 10) * 0.01;
@@ -114,8 +111,7 @@ Robot::set_vel(double lvel, double rvel)
     this->vel_pub->Publish(msg);
 }
 
-void
-Robot::on_scan(ConstSonarStampedPtr &msg)
+void Robot::on_scan(ConstSonarStampedPtr &msg)
 {
     //cout << "Receiving the Sonar message from Sonar Sensor" << endl;
     msgs::Sonar sonar = msg->sonar();
@@ -125,12 +121,11 @@ Robot::on_scan(ConstSonarStampedPtr &msg)
     this->on_update(this);
 }
 
-void
-Robot::on_frame(ConstImageStampedPtr &msg)
+void Robot::on_frame(ConstImageStampedPtr &msg)
 {
     msgs::Image image = msg->image();
 
-    char* data = (char*)malloc(image.data().size());
+    char *data = (char *)malloc(image.data().size());
     memcpy(data, image.data().c_str(), image.data().size());
     cv::Mat temp(image.height(), image.width(), CV_8UC3, data);
     cv::Mat temp2 = temp.clone();
@@ -142,8 +137,7 @@ Robot::on_frame(ConstImageStampedPtr &msg)
     this->on_update(this);
 }
 
-void
-Robot::on_pose(ConstPoseStampedPtr &msg)
+void Robot::on_pose(ConstPoseStampedPtr &msg)
 {
     auto x_error = ((rand() % 21) - 10) * 0.02;
     auto y_error = ((rand() % 21) - 10) * 0.02;

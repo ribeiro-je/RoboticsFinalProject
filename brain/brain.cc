@@ -3,6 +3,8 @@
 #include <thread>
 #include <algorithm>
 #include <vector>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include "robot.hh"
 #include "cam.hh"
@@ -14,19 +16,23 @@
 using std::cout;
 using std::endl;
 
-// globals
-const double GOAL_X = 20.0;
-const double GOAL_Y = 0.0;
-int CAMWitdh = 100;
-int CAMHeight = 100;
-int CAMWitdhSCALED = 100;
-int CAMHeightSCALED = 100;
-float pixToRealHit = 0.0;
-float rightHit = 0;
-float leftHIT = 0;
+// Globals //
+
+// Have objects been found //
+bool foundBlueCylinder = false;
+bool foundOrangeCone = false;
+bool foundRedBackPack = false;
+bool foundBox = false;
+
+// path and thread mutex //
 std::vector<coords> path;
 std::mutex mtx;
+
 using namespace cv;
+
+///////////////////////////////////////////////
+//////////////// FUNCTIONS ////////////////////
+///////////////////////////////////////////////
 
 // check if image is empty
 // refrence from https://docs.opencv.org/3.4/da/d5c/tutorial_canny_detector.html
@@ -42,20 +48,37 @@ bool isImageEmpty(cv::Mat image)
 }
 
 // find distance from top of photo to wall
-int wallDistanceInPixels(int col, cv::Mat image)
+std::string objectColor(cv::Mat image)
 {
-    for (int row = 0; row < CAMHeightSCALED; row++)
-    {
-        //Vec3b -> B G R
-        Vec3b pixelColor = image.at<Vec3b>(cv::Point(col, row));
+    //Vec3b -> B G R
+    Vec3b pixelColor = image.at<Vec3b>(cv::Point(70, 50));
+    int red = pixelColor.val[0];
+    int green = pixelColor.val[1];
+    int blue = pixelColor.val[2];
+    std::cout << "blue : " << blue << " green " << green << " red: " << red << endl;
 
-        // find where sky becomes wall Sky color is 178 178 178
-        if (abs(pixelColor.val[0] - 178) > 0 && abs(pixelColor.val[1] - 178) > 0 && abs(pixelColor.val[2] - 178) > 0)
-        {
-            return row;
-        }
+    if (red > 120 && blue < 80)
+    {
+        return "red";
     }
-    return -99;
+    if (red < 100 && blue > 170)
+    {
+        return "blue";
+    }
+    if (red > 100 && blue > 100)
+    {
+        return "orange";
+    }
+    if (red > 100 && blue < 100)
+    {
+        return "brown";
+    }
+    if (red > 220 && blue > 220 && green > 220)
+    {
+        return "white";
+    }
+
+    return "noObject";
 }
 
 /*
@@ -63,99 +86,83 @@ To view the camera image in time, you could press CTRL-T in Gazebo
 , choosing the Topic-"~/tankbot0/tankbot/camera_sensor/link/camera/image", 
 then a Image Window will pop up, in order to view the Image in time.
 */
-
 void callback(Robot *robot)
 {
-    cv::Mat fullMat, smallMat;
+    bool hitIsObject = false;
+    cv::Mat fullMat;
     fullMat = robot->frame;
     if (!isImageEmpty(fullMat))
     {
         return;
     }
-    //cam_show(robot->frame);
-
     Pose pose(robot->pos_x, robot->pos_y, robot->pos_t);
-    if (robot->range < 1.9 && robot->range > 0)
+
+    // if within range of object beep three times when found
+    if (robot->range <= 1.25)
     {
-        cout << "LASER HIT " << robot->range << endl;
-        // for directly in front of cam
-        int pix = wallDistanceInPixels(CAMWitdhSCALED / 2, fullMat);
-        if (pix > 0)
+        std::string object = objectColor(fullMat);
+        if (object == "red" && !foundRedBackPack)
         {
-            // pixel to real world scale factor
-            pixToRealHit = pix / robot->range;
+            grid_apply_hit_color(robot->range, 0, pose, object);
+            std::cout << "BACKPACK FOUND! LED RED" << endl;
+            system("echo -ne '\a'"); // beep!
 
-            grid_apply_hit(pix / pixToRealHit, 0, pose);
-            cout << "F " << pix / pixToRealHit << " ANG " << 0 << endl;
-            cout << "F pixel " << pix << " pixToRealHit " << pixToRealHit << endl;
+            hitIsObject = true;
+            foundRedBackPack = true;
+
+            // stop - object found!:)
+            robot->set_vel(0, 0);
+            return;
         }
-        if (pix == 0)
+        if ((object == "orange" || object == "white") && !foundOrangeCone)
         {
-            cout << "can only see wall" << endl;
-            grid_apply_hit(.5, 0, pose);
+            grid_apply_hit_color(robot->range, 0, pose, object);
+            std::cout << "CONE FOUND! LED ORANGE" << endl;
+            system("echo -ne '\a'"); // beep!
+
+            hitIsObject = true;
+            foundOrangeCone = true;
+
+            // stop - object found!:)
+            robot->set_vel(0, 0);
+            return;
         }
-        else
+        if (object == "brown" && !foundBox)
         {
-            if (abs(robot->pos_t) < .2)
-            {
-                // to the left 20
-                int pix2 = wallDistanceInPixels((CAMWitdhSCALED / 2) - 20, fullMat);
-                if (pix2 > 0)
-                {
-                    float hypot = sqrt((20 * 20) + (pix2 * pix2));
-                    float angle = asin(pix2 / hypot);
-                    angle = (M_PI / 2) - angle;
-                    float hypoFactor = hypot / pixToRealHit;
-                    leftHIT = hypot / pixToRealHit;
+            grid_apply_hit_color(robot->range, 0, pose, object);
+            std::cout << "BOX FOUND! LED BROWN" << endl;
+            system("echo -ne '\a'"); // beep!
 
-                    if (hypoFactor < 2.0)
-                    {
-                        grid_apply_hit(hypoFactor, angle, pose);
-                        cout << "L " << hypot / pixToRealHit << " ANG " << angle << endl;
-                    }
-                }
+            hitIsObject = true;
+            foundBox = true;
 
-                //sample right 40
-                int pix3 = wallDistanceInPixels(CAMWitdhSCALED / 2 + 40, fullMat);
-                if (pix3 > 0)
-                {
+            // stop - object found!:)
+            robot->set_vel(0, 0);
+            return;
+        }
+        if (object == "blue" && !foundBlueCylinder)
+        {
+            grid_apply_hit_color(robot->range, 0, pose, object);
+            std::cout << "BUE CYLINDER FOUND! LED BLUE" << endl;
+            system("echo -ne '\a'"); // beep!
 
-                    float hypot = sqrt((40 * 40) + (pix3 * pix3));
-                    float angle = asin(pix3 / hypot);
-                    angle = (M_PI / 2) - angle;
-                    float hypoFactor = hypot / pixToRealHit;
-                    rightHit = hypot / pixToRealHit;
-                    angle = -angle;
+            hitIsObject = true;
+            foundBlueCylinder = true;
 
-                    if (hypoFactor < 2.0)
-                    {
-                        grid_apply_hit(hypoFactor, angle, pose);
-                        cout << "R " << hypot / pixToRealHit << " ANG " << angle << endl;
-                    }
-                }
-
-                //sample right 20
-                int pix4 = wallDistanceInPixels(CAMWitdhSCALED / 2 + 20, fullMat);
-                if (pix4 > 0)
-                {
-
-                    float hypot = sqrt((20 * 20) + (pix4 * pix4));
-                    float angle = asin(pix4 / hypot);
-                    angle = (M_PI / 2) - angle;
-                    float hypoFactor = hypot / pixToRealHit;
-                    rightHit = hypot / pixToRealHit;
-                    angle = -angle;
-
-                    if (hypoFactor < 2.4)
-                    {
-                        grid_apply_hit(hypoFactor, angle, pose);
-                        cout << "R " << hypot / pixToRealHit << " ANG " << angle << endl;
-                    }
-                }
-            }
+            // stop - object found!:)
+            robot->set_vel(0, 0);
+            return;
         }
     }
 
+    // if within 1.0 meters add information to ogrid and it is not the object
+    if (robot->range < 1.0 && robot->range > 0 && !hitIsObject)
+    {
+        cout << "LASER HIT " << robot->range << endl;
+        grid_apply_hit(robot->range, 0, pose);
+    }
+
+    // path for exploring
     mtx.lock();
     std::vector<coords> pathcopy = path;
     mtx.unlock();
@@ -166,13 +173,10 @@ void callback(Robot *robot)
     float ang = grid_goal_angle(pose, pathcopy);
     float trn = clamp(-1.0, 3 * ang, 1.0);
 
-    float fwd = clamp(0.0, robot->range, 2.0);
-    float lft = clamp(0.0, leftHIT, 2.0);
-    float rgt = clamp(0.0, rightHit, 2.0);
+    float fwd = clamp(0.0, robot->range, 1.5);
 
-    double dx = GOAL_X - robot->pos_x;
-    double dy = GOAL_Y - robot->pos_y;
-    if (abs(dx) < 0.75 && abs(dy) < 0.75)
+    // if all objects found done!
+    if (foundBlueCylinder && foundBox && foundOrangeCone && foundRedBackPack)
     {
         cout << "we win!" << endl;
         robot->set_vel(0, 0);
@@ -180,6 +184,7 @@ void callback(Robot *robot)
         return;
     }
 
+    // following path logic
     if (abs(ang) > 0.5)
     {
         robot->set_vel(-trn, +trn);
@@ -188,12 +193,17 @@ void callback(Robot *robot)
 
     if (fwd > 1.0)
     {
-        robot->set_vel(2.0f - trn, 2.0f + trn);
+        robot->set_vel(1.5f - trn, 1.5f + trn);
         return;
     }
 
-    robot->set_vel(-2.0, 2.0);
+    // if all fails go straight!
+    robot->set_vel(-1.5, 1.5);
 }
+
+///////////////////////////////////////////////
+////////////////// THREADS ////////////////////
+///////////////////////////////////////////////
 
 void robot_thread(Robot *robot)
 {
@@ -204,89 +214,32 @@ void path_thread(Robot *robot)
 {
     while (1)
     {
-        std::vector<coords> pathcopy = grid_find_path(robot->pos_x, robot->pos_y, 20.0f, 0.0f);
+        std::vector<coords> pathcopy = explore(robot->pos_x, robot->pos_y);
 
         mtx.lock();
         path = pathcopy;
         mtx.unlock();
-        sleep(.0001);
+        sleep(12);
     }
 }
+
+///////////////////////////////////////////////
+/////////////////// MAIN //////////////////////
+///////////////////////////////////////////////
 
 int main(int argc, char *argv[])
 {
     cam_init();
 
     cout << "making robot" << endl;
+    cout << "I am trained to find the cardboard box, red backpack, blue cylinder, and orange cone. I will beep once I found an object!" << endl;
+
+    // give people time to read the intro
+    sleep(2);
+
+    //start up threads
     Robot robot(argc, argv, callback);
     std::thread rthr(robot_thread, &robot);
     std::thread path(path_thread, &robot);
     return viz_run(argc, argv);
 }
-
-// Callback filling out occupancy map w just laser info
-// Putting this here in case we need it
-// void callback(Robot *robot)
-// {
-//     if (robot->ranges.size() < 5)
-//     {
-//         return;
-//     }
-
-//     Pose pose(robot->pos_x, robot->pos_y, robot->pos_t);
-
-//     for (auto hit : robot->ranges)
-//     {
-//         if (hit.range < 100)
-//         {
-//             grid_apply_hit(hit, pose);
-//         }
-//     }
-
-//     // Goal is at x = 20, y = 0
-//     grid_find_path(pose.x, pose.y, 20.0f, 0.0f);
-
-//     Mat view = grid_view(pose);
-//     viz_show(view);
-
-//     float ang = grid_goal_angle(pose);
-//     float trn = clamp(-1.0, 3 * ang, 1.0);
-
-//     float fwd = clamp(0.0, robot->ranges[3].range, 2.0);
-//     float lft = clamp(0.0, robot->ranges[2].range, 2.0);
-//     float rgt = clamp(0.0, robot->ranges[4].range, 2.0);
-
-//     if (abs(ang) > 0.5)
-//     {
-//         robot->set_vel(-trn, +trn);
-//         return;
-//     }
-
-//     if (fwd > 1.0)
-//     {
-//         robot->set_vel(2.0f - trn, 2.0f + trn);
-//         return;
-//     }
-
-//     // Wall follow.
-//     float spd = clamp(0, fwd - 1.0, 1);
-//     if (lft < rgt)
-//     {
-//         trn = 1;
-//         if (lft < 0.75)
-//         {
-//             spd = 0;
-//         }
-//     }
-//     else
-//     {
-//         if (rgt < 0.75)
-//         {
-//             spd = 0;
-//         }
-//         trn = -1;
-//     }
-
-//     //cout << "spd,trn = " << spd << "," << trn << endl;
-//     robot->set_vel(spd - trn, spd + trn);
-// }
