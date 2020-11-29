@@ -6,6 +6,8 @@
 #include <chrono>
 #include <csignal>
 #include <opencv2/core/mat.hpp>
+#include <unistd.h>
+#include <thread>
 
 #include "viz.hh"
 #include "grid.hh"
@@ -16,14 +18,13 @@ using namespace std;
 
 static SerialStream port;
 
-char dist[50];
+Mat m;
+Pose p;
+float dist = 0.0;
 bool o1 = false;
 bool o2 = false;
 bool o3 = false;
 bool o4 = false;
-
-Pose p;
-Mat m;
 
 void setup()
 {
@@ -33,14 +34,15 @@ void setup()
 	port.SetParity(LibSerial::Parity::PARITY_NONE);
 	port.SetStopBits(LibSerial::StopBits::STOP_BITS_1);
 
-	viz_run(0, NULL);
+	p = Pose();
+
 }
 
 void process_data(char type, char *data)
 {
 	if (type == 'd')
 	{
-		strcpy(dist, data);
+		dist = std::stof(data);
 	}
 	if (type == '1')
 	{
@@ -80,20 +82,56 @@ void read()
 	}
 }
 
-int main(int argc, char *argv[])
+void apply_data_on_grid()
 {
+	// if (o1)
+	// {
+	// 	grid_apply_hit_color(dist, 0, p, "blue");
+	// }
+	// if (o2)
+	// {
+	// 	grid_apply_hit_color(dist, 0, p, "red");
+	// }
+	// if (o3)
+	// {
+	// 	grid_apply_hit_color(dist, 0, p, "brown");
+	// }
+	// if (o4)
+	// {
+	// 	grid_apply_hit_color(dist, 0, p, "green");
+	// }
+	// else
+	// {
+	grid_apply_hit(dist, 0, p);
+	// }
+	m = grid_view(p, {});
+}
 
-	setup();
-	while (true)
+void read_data()
+{
+	// just read data first
+	int i = 0;
+	while (i < 100)
 	{
 		read();
-		// grid_apply_hit(dist, 0, p);
-		// m = grid_view(p, NULL);
-		// viz_show(m);
 		cout << dist << endl;
 		cout << o1 << endl;
 		cout << o2 << endl;
 		cout << o3 << endl;
 		cout << o4 << endl;
+		apply_data_on_grid();
+		i++;
 	}
+}
+
+int main(int argc, char *argv[])
+{
+	setup();
+
+	read_data();
+
+	// when you get some data run viz
+	viz_run(0, NULL); 
+	viz_show(m);
+	return 0;
 }

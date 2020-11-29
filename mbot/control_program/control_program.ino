@@ -95,7 +95,6 @@ void setup()
   attachInterrupt(Encoder_2.getIntNum(), isr_process_encoder2, RISING);
 
   pixy.init();
-
 }
 
 void _loop()
@@ -130,9 +129,9 @@ void process_data() {
   Serial.print("2");
   bool is_2_detected = is_object_detected(2);
   Serial.println(is_2_detected);
-  Serial.print("3");
-  bool is_3_detected = is_object_detected(3);
-  Serial.println(is_3_detected);
+  //  Serial.print("3");
+  //  bool is_3_detected = is_object_detected(3);
+  //  Serial.println(is_3_detect/ed);
   Serial.print("4");
   bool is_4_detected = is_object_detected(4);
   Serial.println(is_4_detected);
@@ -155,15 +154,15 @@ void process_data() {
     //    Encoder_2.setTarPWM(0);
     //    _delay(5);
   }
-  else if (is_3_detected)
-  {
-    rgbled_0.setColor(0, 146, 73, 0);
-    rgbled_0.show();
-    //    buzzer.tone(500, 1 * 1000);
-    //    Encoder_1.setTarPWM(0);
-    //    Encoder_2.setTarPWM(0);
-    //    _delay(5);
-  }
+  //  else/ if (is_3_detected)
+  //  {/
+  //  rgbled_0./setColor(0, 146, 73, 0);
+  //  rgbled/_0.show();
+  //    buzzer.tone(500, 1 * 1000);
+  //    Encoder_1.setTarPWM(0);
+  //    Encoder_2.setTarPWM(0);
+  //    _delay(5);
+  //  }/
   else if (is_4_detected)
   {
     rgbled_0.setColor(0, 72, 243, 0);
@@ -181,18 +180,18 @@ void process_data() {
 
 void loop()
 {
-  //  _loop();
-  //
-  //  if (ultrasonic_8.distanceCm() < 15)
-  //  {
-  //    move(3, 50 / 100.0 * 255);
-  //    _delay(1);
-  //    move(2, 0);
-  //  }
-  //  else
-  //  {
-  //    move(1, 70 / 100.0 * 255);
-  //  }
+//  _loop();
+//
+//  if (ultrasonic_8.distanceCm() < 15)
+//  {
+//    move(3, 50 / 100.0 * 255);
+//    _delay(1);
+//    move(2, 0);
+//  }
+//  else
+//  {
+//    move(1, 70 / 100.0 * 255);
+//  }
 
   process_data();
 

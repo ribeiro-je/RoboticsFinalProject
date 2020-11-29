@@ -27,6 +27,8 @@ cassert
 -
 stdio.h
 -
+stdlib.h
+-
 set
 -
 grid.hh
@@ -54,6 +56,10 @@ chrono
 csignal
 -
 opencv2/core/mat.hpp
+-
+unistd.h
+-
+thread
 -
 viz.hh
 /home/margarita/Desktop/RoboticsFinalProject/mbot/control_program/viz_run/viz.hh

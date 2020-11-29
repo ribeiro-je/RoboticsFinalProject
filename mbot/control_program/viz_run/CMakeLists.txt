@@ -24,7 +24,7 @@ include_directories("/usr/include/libserial")
 link_directories("/usr/include/libserial")
 
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GAZEBO_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 add_executable(main main.cc grid.cc viz.cc)
 TARGET_LINK_LIBRARIES(main ${GTK3_LIBRARIES})
 target_link_libraries(main ${OpenCV_LIBS})
