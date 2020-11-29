@@ -29,11 +29,11 @@ Brain
 - worlds
   - apartment model world and demo maze world 
 
-# Demo Videos
+# Videos
 
 ## Physical Robot
 
-## Gazebo
+## Presentation
 
 # Refrences
 Random Tree Exploration:
