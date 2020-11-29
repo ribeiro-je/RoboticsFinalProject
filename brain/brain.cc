@@ -16,19 +16,23 @@
 using std::cout;
 using std::endl;
 
-// globals
-const double GOAL_X = -8.0;
-const double GOAL_Y = 5.0;
+// Globals //
 
+// Have objects been found //
 bool foundBlueCylinder = false;
 bool foundOrangeCone = false;
 bool foundRedBackPack = false;
 bool foundBox = false;
 
+// path and thread mutex //
 std::vector<coords> path;
 std::mutex mtx;
 
 using namespace cv;
+
+///////////////////////////////////////////////
+//////////////// FUNCTIONS ////////////////////
+///////////////////////////////////////////////
 
 // check if image is empty
 // refrence from https://docs.opencv.org/3.4/da/d5c/tutorial_canny_detector.html
@@ -47,17 +51,17 @@ bool isImageEmpty(cv::Mat image)
 std::string objectColor(cv::Mat image)
 {
     //Vec3b -> B G R
-    Vec3b pixelColor = image.at<Vec3b>(cv::Point(50, 50));
+    Vec3b pixelColor = image.at<Vec3b>(cv::Point(70, 50));
     int red = pixelColor.val[0];
     int green = pixelColor.val[1];
     int blue = pixelColor.val[2];
     std::cout << "blue : " << blue << " green " << green << " red: " << red << endl;
 
-    if (red > 100 && blue < 80)
+    if (red > 120 && blue < 80)
     {
         return "red";
     }
-    if (red < 100 && blue > 200)
+    if (red < 100 && blue > 170)
     {
         return "blue";
     }
@@ -65,7 +69,7 @@ std::string objectColor(cv::Mat image)
     {
         return "orange";
     }
-    if (red < 100 && blue < 100)
+    if (red > 100 && blue < 100)
     {
         return "brown";
     }
@@ -85,7 +89,7 @@ then a Image Window will pop up, in order to view the Image in time.
 void callback(Robot *robot)
 {
     bool hitIsObject = false;
-    cv::Mat fullMat, smallMat;
+    cv::Mat fullMat;
     fullMat = robot->frame;
     if (!isImageEmpty(fullMat))
     {
@@ -94,7 +98,7 @@ void callback(Robot *robot)
     Pose pose(robot->pos_x, robot->pos_y, robot->pos_t);
 
     // if within range of object beep three times when found
-    if (robot->range < 1.5)
+    if (robot->range <= 1.25)
     {
         std::string object = objectColor(fullMat);
         if (object == "red" && !foundRedBackPack)
@@ -105,6 +109,10 @@ void callback(Robot *robot)
 
             hitIsObject = true;
             foundRedBackPack = true;
+
+            // stop - object found!:)
+            robot->set_vel(0, 0);
+            return;
         }
         if ((object == "orange" || object == "white") && !foundOrangeCone)
         {
@@ -114,6 +122,10 @@ void callback(Robot *robot)
 
             hitIsObject = true;
             foundOrangeCone = true;
+
+            // stop - object found!:)
+            robot->set_vel(0, 0);
+            return;
         }
         if (object == "brown" && !foundBox)
         {
@@ -123,6 +135,10 @@ void callback(Robot *robot)
 
             hitIsObject = true;
             foundBox = true;
+
+            // stop - object found!:)
+            robot->set_vel(0, 0);
+            return;
         }
         if (object == "blue" && !foundBlueCylinder)
         {
@@ -132,11 +148,15 @@ void callback(Robot *robot)
 
             hitIsObject = true;
             foundBlueCylinder = true;
+
+            // stop - object found!:)
+            robot->set_vel(0, 0);
+            return;
         }
     }
 
-    // if within 1.5 meters add information to ogrid and it is not the object
-    if (robot->range < 1.5 && robot->range > 0 && !hitIsObject)
+    // if within 1.0 meters add information to ogrid and it is not the object
+    if (robot->range < 1.0 && robot->range > 0 && !hitIsObject)
     {
         cout << "LASER HIT " << robot->range << endl;
         grid_apply_hit(robot->range, 0, pose);
@@ -144,7 +164,7 @@ void callback(Robot *robot)
 
     // path for exploring
     mtx.lock();
-    std::vector<coords> pathcopy = path; // todo this is currently A*
+    std::vector<coords> pathcopy = path;
     mtx.unlock();
 
     Mat view = grid_view(pose, pathcopy);
@@ -153,11 +173,10 @@ void callback(Robot *robot)
     float ang = grid_goal_angle(pose, pathcopy);
     float trn = clamp(-1.0, 3 * ang, 1.0);
 
-    float fwd = clamp(0.0, robot->range, 2.0);
+    float fwd = clamp(0.0, robot->range, 1.5);
 
-    double dx = GOAL_X - robot->pos_x;
-    double dy = GOAL_Y - robot->pos_y;
-    if (abs(dx) < 0.75 && abs(dy) < 0.75)
+    // if all objects found done!
+    if (foundBlueCylinder && foundBox && foundOrangeCone && foundRedBackPack)
     {
         cout << "we win!" << endl;
         robot->set_vel(0, 0);
@@ -165,6 +184,7 @@ void callback(Robot *robot)
         return;
     }
 
+    // following path logic
     if (abs(ang) > 0.5)
     {
         robot->set_vel(-trn, +trn);
@@ -173,12 +193,17 @@ void callback(Robot *robot)
 
     if (fwd > 1.0)
     {
-        robot->set_vel(2.0f - trn, 2.0f + trn);
+        robot->set_vel(1.5f - trn, 1.5f + trn);
         return;
     }
 
-    robot->set_vel(-2.0, 2.0);
+    // if all fails go straight!
+    robot->set_vel(-1.5, 1.5);
 }
+
+///////////////////////////////////////////////
+////////////////// THREADS ////////////////////
+///////////////////////////////////////////////
 
 void robot_thread(Robot *robot)
 {
@@ -189,14 +214,18 @@ void path_thread(Robot *robot)
 {
     while (1)
     {
-        std::vector<coords> pathcopy = grid_find_path(robot->pos_x, robot->pos_y, 20.0f, 0.0f);
+        std::vector<coords> pathcopy = explore(robot->pos_x, robot->pos_y);
 
         mtx.lock();
         path = pathcopy;
         mtx.unlock();
-        sleep(.0001);
+        sleep(12);
     }
 }
+
+///////////////////////////////////////////////
+/////////////////// MAIN //////////////////////
+///////////////////////////////////////////////
 
 int main(int argc, char *argv[])
 {
@@ -204,6 +233,11 @@ int main(int argc, char *argv[])
 
     cout << "making robot" << endl;
     cout << "I am trained to find the cardboard box, red backpack, blue cylinder, and orange cone. I will beep once I found an object!" << endl;
+
+    // give people time to read the intro
+    sleep(2);
+
+    //start up threads
     Robot robot(argc, argv, callback);
     std::thread rthr(robot_thread, &robot);
     std::thread path(path_thread, &robot);

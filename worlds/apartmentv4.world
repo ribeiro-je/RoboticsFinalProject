@@ -282,7 +282,7 @@
       <pose>-0.5799 -3.74315 0 0 -0 0</pose>
     </model>
         <model name="tankbot0">
-      <pose>0 0 0 0 0 2</pose>
+      <pose>0 2 0 0 0 3</pose>
 
       <include>
         <uri>model://tankbot</uri>

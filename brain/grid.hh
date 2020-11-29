@@ -21,10 +21,16 @@ void grid_apply_hit_color(float dist, float angle, Pose pose, std::string color)
 // return Mat to be pased to vix show
 Mat grid_view(Pose pose, std::vector<coords> path);
 
-// find path to given goal using grid
+// find path to given goal using grid using A*
 std::vector<coords> grid_find_path(float x0, float y0, float x1, float y1);
 
 // find angle to goal
 float grid_goal_angle(Pose pose, std::vector<coords> path);
+
+// explore map using Backtracing algorithm
+std::vector<coords> explore(float x0, float y0);
+
+// check if coordinate is safe
+bool isSafe(coords point);
 
 #endif

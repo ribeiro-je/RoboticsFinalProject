@@ -6,7 +6,7 @@
         <light name='lamp' type='spot'>
           <pose>0 0 0.0 0 -1.7 0</pose>
           <attenuation>
-            <range>30</range>
+            <range>2</range>
             <linear>0.025</linear>
           </attenuation>
           <diffuse>0.5 1 1 1</diffuse>
@@ -39,7 +39,7 @@
           <id>link/lamp</id>
           <duration>0.5</duration>
           <interval>1</interval>
-          <color>1 0 0</color>
+          <color>1 1 1</color>
           <enable>true</enable>
         </light>
       </plugin>
