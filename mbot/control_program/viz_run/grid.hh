@@ -1,9 +1,9 @@
 #ifndef GRID_HH
 #define GRID_HH
 
-#include "robot.hh"
 #include "viz.hh"
 #include "pose.hh"
+
 typedef std::pair<int, int> coords;
 
 static const float CELL_SIZE = 0.5;

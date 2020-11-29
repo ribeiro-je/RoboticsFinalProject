@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <cassert>
 #include <stdio.h>
+#include <set>
 
 #include "grid.hh"
 
@@ -116,7 +117,7 @@ neibs(coords aa)
 }
 void grid_apply_hit(float dist, float angle, Pose pose)
 {
-    set<coords> cells;
+    std::set<coords> cells;
 
     for (float ds = 0.0f; ds < (dist - CELL_SIZE - 0.1); ds += 0.1f)
     {
