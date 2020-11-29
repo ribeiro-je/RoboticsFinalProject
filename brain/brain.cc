@@ -184,7 +184,7 @@ void callback(Robot *robot)
     }
 
     // following path logic
-    if (abs(ang) > 2.5)
+    if (abs(ang) > .5)
     {
         cout << "here 1" << endl;
         robot->set_vel(+trn, -trn);
