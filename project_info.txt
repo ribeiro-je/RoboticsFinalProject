@@ -5,7 +5,6 @@ This file should be filled in once for your team and submited once each to the t
 
 Make sure to answer all the questions here to qualify for full project credit.
 
-
 1. What are the names of all members of your team?
 Jennifer Ribeiro, Margarita Gubanova, Karan Machado
 
@@ -31,7 +30,7 @@ Demo Video:
 - It was difficult to figure out how to get and represent physical robot's position in the room to apply hits on an occupancy grid map in the control program.
 - It was challenging to get the robot communicate with the control computer in order to use the control program.
 - It proved diffucult using Margaritas MAC and she had to go through various solutions to get it working. This included wiping her laptop to install Linux. After many different steps she was able to get the communication working.
-- Additionally it was difficult to work with Gazebo as there is little documentation and it is taxing on our laptops to run. 
+- Additionally it was difficult to work with Gazebo as there is little documentation and it is taxing on our laptops to run. It would often glitch and send the robot flying as well.
 
 6. What's the URL to your Demo video?
 
@@ -42,4 +41,10 @@ Demo Video:
 8. Did you share any generally useful example code with other teams to try for
 a bonus point? If so, what's the Git repo and Piazza post URLs?
 
-n/a
+#1: LED Plugin
+https://github.com/karanheart96/Ledplugin
+https://piazza.com/class/kcnltmm0pvf6l?cid=142
+
+#2: Map Coloring
+https://github.com/ribeiro-je/MapColoring
+https://piazza.com/class/kcnltmm0pvf6l?cid=141

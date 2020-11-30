@@ -46,6 +46,8 @@ Having mbot connected to your computer, run:
   - configurations for camera_sensor, led_sensor, tankbot, ultrasonic_sensor
 - worlds
   - apartment model world and demo maze world 
+- plugins
+  - plugin information for models above
 
 # Videos
 
@@ -54,30 +56,33 @@ Having mbot connected to your computer, run:
 ## Presentation
 
 # Refrences
-Random Tree Exploration:
+##### Random Tree Exploration:
 
 https://github.com/nikhilchandak/Rapidly-Exploring-Random-Trees
-
 http://msl.cs.uiuc.edu/rrt/about.html
 
-Paper: “Improved Backtracking Algorithm for Efficient Sensor-based Random Tree Exploration”, Haitham El-Hussieny, Samy F. M. Assal and Mohamed Abdellatif 
+##### Paper: 
+
+“Improved Backtracking Algorithm for Efficient Sensor-based Random Tree Exploration”, Haitham El-Hussieny, Samy F. M. Assal and Mohamed Abdellatif 
 https://ieeexplore.ieee.org/document/6571336
 
+##### LED:
 
-LED:
 http://gazebosim.org/tutorials?tut=led_plugin&cat=plugins
-
 http://gazebosim.org/tutorials?tut=flashlight_plugin&cat=plugins
 
-Equipment:
+##### Equipment:
+
 https://www.makeblock.com/steam-kits/mbot-ranger
 
 https://pixycam.com/
 
-Professors Base Code:
+##### Professors Base Code:
+
 https://github.com/NatTuck/cs5335hw-gazebo
 
-Other:
+##### Other:
+
 https://stackoverflow.com/questions/9370945/c-help-finding-the-max-value-in-a-map
 
 
