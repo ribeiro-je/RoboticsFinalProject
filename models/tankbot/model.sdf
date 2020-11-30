@@ -299,7 +299,7 @@
       </axis>
     </joint>
 
-    <include>
+     <include>
       <uri>model://ultrasonic_sensor</uri>
       <pose>
         0.18 0.0 0.24
@@ -311,7 +311,7 @@
       <child>ultrasonic_sensor::link</child>
       <parent>chassis</parent>
     </joint>
-    
+
     <include>
       <uri>model://camera_sensor</uri>
       <pose>

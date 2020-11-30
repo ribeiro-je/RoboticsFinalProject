@@ -10,18 +10,28 @@ Make sure to answer all the questions here to qualify for full project credit.
 Jennifer Ribeiro, Margarita Gubanova, Karan Machado
 
 2. In no more than three sentences, what was your project?
-Our robot will explore a given space using the Improved Back____. While exploring it will be looking for specific objects it has been trained with and will ding once the objects are found. Additionally, it will label the object on the map the robot is creating while moving.
+While exploring the apartments main room the robot will flash its lights and ding when a specified object is found. Exploring will be done using the Improved Backtracking Algorithm for Efficient Sensor-based Random Tree Exploration and the robot can label these objects on its occupancy map with their corresponding colors.
+The hope is this can be used by people with vision restrictions to locate objects.
 
 3. What did each team member do to contribute to the project?
-Margarita mainly worked on writing and testing out code on the physical robot as she was the one to purchase it (she also built it). Jenny worked on the simulation enviorment and control code for the simulator. Karan worked on adding the led and plugin for the robot. 
+Margarita worked mainly on the physical robot aspect of the project. She successfully built the robot, attached the pixy cam, and was able to work on testing and writing code for the robot.
+Jenny worked on the simulation enviorment and control code for the simulator. She created the apartment duplicate in gazebo and implemented the control code for the robot detecting objects in gazebo and the exploration path.
+Karan worked on adding the led and plugin for the robot. 
 
 4. What is the URL of your git repository with all your project code and your
 presentation notes / slides?
 
-https://github.com/ribeiro-je/RoboticsFinalProject
+Github: https://github.com/ribeiro-je/RoboticsFinalProject
+Presentation Video:
+Demo Video:
 
 5. Which component do you think was the most innately difficult to build?
-It was the most difficult to get the robot working with the control program. It proved diffucult using Margaritas MAC and she had to go through various solutions to get it working. Additionally it was difficult to work with Gazebo as there is little documentation and it is taxing on our laptops to run.
+- It was difficult to make Arduino communicate and get data from PixyCam2 as there is little documentation on how to attach it to mbot and which interface to use.
+  Many tutorials for Arduino, but the wire included in the kit wouldn't work with our model of mbot.
+- It was difficult to figure out how to get and represent physical robot's position in the room to apply hits on an occupancy grid map in the control program.
+- It was challenging to get the robot communicate with the control computer in order to use the control program.
+- It proved diffucult using Margaritas MAC and she had to go through various solutions to get it working. This included wiping her laptop to install Linux. After many different steps she was able to get the communication working.
+- Additionally it was difficult to work with Gazebo as there is little documentation and it is taxing on our laptops to run. 
 
 6. What's the URL to your Demo video?
 

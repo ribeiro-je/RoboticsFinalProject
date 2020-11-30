@@ -116,7 +116,7 @@ void callback(Robot *robot)
         }
         if ((object == "orange" || object == "white") && !foundOrangeCone)
         {
-            grid_apply_hit_color(robot->range, 0, pose, object);
+            grid_apply_hit_color(robot->range, 0, pose, "orange");
             std::cout << "CONE FOUND! LED ORANGE" << endl;
             system("echo -ne '\a'"); // beep!
 
@@ -173,32 +173,33 @@ void callback(Robot *robot)
     float ang = grid_goal_angle(pose, pathcopy);
     float trn = clamp(-1.0, 3 * ang, 1.0);
 
-    float fwd = clamp(0.0, robot->range, 1.5);
+    float fwd = clamp(0.0, robot->range, 2.0);
 
     // if all objects found done!
     if (foundBlueCylinder && foundBox && foundOrangeCone && foundRedBackPack)
     {
-        cout << "we win!" << endl;
         robot->set_vel(0, 0);
         robot->done();
         return;
     }
 
     // following path logic
-    if (abs(ang) > 0.5)
+    if (abs(ang) > .5)
     {
-        robot->set_vel(-trn, +trn);
+        cout << "here 1" << endl;
+        robot->set_vel(+trn, -trn);
         return;
     }
 
     if (fwd > 1.0)
     {
-        robot->set_vel(1.5f - trn, 1.5f + trn);
+        cout << "here 2" << endl;
+        robot->set_vel(2.0f - trn, 2.0f + trn);
         return;
     }
 
-    // if all fails go straight!
-    robot->set_vel(-1.5, 1.5);
+    // if all fails
+    robot->set_vel(2, 2);
 }
 
 ///////////////////////////////////////////////
@@ -219,7 +220,7 @@ void path_thread(Robot *robot)
         mtx.lock();
         path = pathcopy;
         mtx.unlock();
-        sleep(12);
+        sleep(.0001);
     }
 }
 
