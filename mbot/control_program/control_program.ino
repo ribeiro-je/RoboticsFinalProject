@@ -20,6 +20,7 @@ double x = 0.0;
 double y = 0.0;
 
 const double STEP = 0.1;
+const double THETA_INCR = 0.1;
 
 
 void isr_process_encoder1(void)
@@ -105,7 +106,7 @@ void move(int direction, int speed)
   }
   else if (direction == 3)
   {
-    pos_t += 0.1;
+    pos_t += THETA_INCR;
     if (pos_t > 3.14) {
       pos_t = fmod(pos_t, 3.14) - 3.14;
     }
@@ -114,12 +115,12 @@ void move(int direction, int speed)
   }
   else if (direction == 4)
   {
-    pos_t -= 0.1;
+    pos_t -= THETA_INCR;
     if (pos_t < -3.14) {
       pos_t = fmod(pos_t, -3.14) + 3.14;
     }
     leftSpeed = speed;
-    rightSpeed = speed;
+    rightSpeed = speed;s
   }
   Encoder_1.setTarPWM(leftSpeed);
   Encoder_2.setTarPWM(rightSpeed);
@@ -171,6 +172,7 @@ bool is_object_detected(int sign)
 }
 
 void process_data() {
+  
   Serial.print("d");
   Serial.println(ultrasonic_8.distanceCm());
   Serial.print("p");
@@ -237,10 +239,9 @@ void process_data() {
 
 void loop()
 {
-
   if (ultrasonic_8.distanceCm() < 20)
   {
-    move(3, 55/ 100.0 * 255);
+    move(3, 55 / 100.0 * 255);
   }
   else
   {
