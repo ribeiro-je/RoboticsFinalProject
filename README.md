@@ -59,6 +59,7 @@ Having mbot connected to your computer, run:
 ##### Random Tree Exploration:
 
 https://github.com/nikhilchandak/Rapidly-Exploring-Random-Trees
+
 http://msl.cs.uiuc.edu/rrt/about.html
 
 ##### Paper: 
@@ -69,7 +70,10 @@ https://ieeexplore.ieee.org/document/6571336
 ##### LED:
 
 http://gazebosim.org/tutorials?tut=led_plugin&cat=plugins
+
 http://gazebosim.org/tutorials?tut=flashlight_plugin&cat=plugins
+
+https://github.com/osrf
 
 ##### Equipment:
 
