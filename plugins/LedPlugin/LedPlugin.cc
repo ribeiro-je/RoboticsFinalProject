@@ -212,6 +212,17 @@ void LedSetting::Dim()
   }
 }
 
+void FlashLightSetting::SetColor(const ignition::math::Color &_color)
+{
+  
+  FlashLightSetting::SetColor(ignition::math::Color &_color);
+  
+  for (auto block: this->dataPtr->blocks)
+  {
+    block->color = _color;
+  }
+}
+
 
 LedPlugin::LedPlugin() : FlashLightPlugin(), dataPtr(new LedPluginPrivate)
 {
