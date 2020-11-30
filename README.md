@@ -67,6 +67,8 @@ https://ieeexplore.ieee.org/document/6571336
 LED:
 http://gazebosim.org/tutorials?tut=led_plugin&cat=plugins
 
+http://gazebosim.org/tutorials?tut=flashlight_plugin&cat=plugins
+
 Equipment:
 https://www.makeblock.com/steam-kits/mbot-ranger
 
