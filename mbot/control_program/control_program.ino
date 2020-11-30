@@ -15,6 +15,10 @@ MeUltrasonicSensor ultrasonic_8(9);
 MeBuzzer buzzer;
 Pixy2I2C pixy;
 
+double pos_t = 0.0;
+double x = 0.0;
+double y = 0.0;
+
 
 void isr_process_encoder1(void)
 {
@@ -50,6 +54,25 @@ void _delay(float seconds)
     _loop();
 }
 
+void set_x_y_pos() {
+  if (pos_t <= 3.14 && pos_t > 1.5 ) {
+    x -= 0.1;
+    y += 0.1;
+  }
+  else if (pos_t <= 1.5 && pos_t > 0.0) {
+    x += 0.1;
+    y += 0.1;
+  }
+  else if (pos_t <= 0.0 && pos_t > -1.5) {
+    x += 0.1;
+    y -= 0.1;
+  }
+  else if (pos_t <= -1.5 && pos_t > -3.14) {
+    x += 0.1;
+    y -= 0.1;
+  }
+}
+
 void move(int direction, int speed)
 {
   int leftSpeed = 0;
@@ -66,16 +89,26 @@ void move(int direction, int speed)
   }
   else if (direction == 3)
   {
+    pos_t += 0.1;
+    if (pos_t > 3.14) {
+      pos_t = fmod(pos_t, 3.14) - 3.14;
+    }
     leftSpeed = -speed;
     rightSpeed = -speed;
   }
   else if (direction == 4)
   {
+    pos_t -= 0.1;
+    if (pos_t < -3.14) {
+      pos_t = fmod(pos_t, -3.14) + 3.14;
+    }
     leftSpeed = speed;
     rightSpeed = speed;
   }
   Encoder_1.setTarPWM(leftSpeed);
   Encoder_2.setTarPWM(rightSpeed);
+
+  set_x_y_pos();
 }
 
 void setup()
@@ -94,6 +127,7 @@ void setup()
   attachInterrupt(Encoder_1.getIntNum(), isr_process_encoder1, RISING);
   attachInterrupt(Encoder_2.getIntNum(), isr_process_encoder2, RISING);
 
+  pos_t = 0.0;
   pixy.init();
 }
 
@@ -123,15 +157,22 @@ bool is_object_detected(int sign)
 void process_data() {
   Serial.print("d");
   Serial.println(ultrasonic_8.distanceCm());
+  Serial.print("p");
+  Serial.println(pos_t);
+  Serial.print("x");
+  Serial.println(x);
+  Serial.print("y");
+  Serial.println(y);
+
   Serial.print("1");
   bool is_1_detected = is_object_detected(1);
   Serial.println(is_1_detected);
   Serial.print("2");
   bool is_2_detected = is_object_detected(2);
   Serial.println(is_2_detected);
-  //  Serial.print("3");
-  //  bool is_3_detected = is_object_detected(3);
-  //  Serial.println(is_3_detect/ed);
+  Serial.print("3");
+  bool is_3_detected = is_object_detected(3);
+  Serial.println(is_3_detected);
   Serial.print("4");
   bool is_4_detected = is_object_detected(4);
   Serial.println(is_4_detected);
@@ -167,7 +208,7 @@ void process_data() {
   {
     rgbled_0.setColor(0, 72, 243, 0);
     rgbled_0.show();
-    //    buzzer.(700, 1 * 1000);
+    //    buzzer.tone(700, 1 * 1000);
     //    Encoder_1.setTarPWM(0);
     //    Encoder_2.setTarPWM(0);
     //    _delay(5);
@@ -180,20 +221,17 @@ void process_data() {
 
 void loop()
 {
-//  _loop();
-//
-//  if (ultrasonic_8.distanceCm() < 15)
-//  {
-//    move(3, 50 / 100.0 * 255);
-//    _delay(1);
-//    move(2, 0);
-//  }
-//  else
-//  {
-//    move(1, 70 / 100.0 * 255);
-//  }
+
+  if (ultrasonic_8.distanceCm() < 50)
+  {
+    move(3, 50 / 100.0 * 255);
+  }
+  else
+  {
+    move(1, 50 / 100.0 * 255);
+  }
+  
+  _loop();
 
   process_data();
-
-  delay(500);
 }

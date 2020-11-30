@@ -18,9 +18,13 @@ using namespace std;
 
 static SerialStream port;
 
+int i = 0;
+
 Mat m;
-Pose p;
+
+Pose p = Pose();
 float dist = 0.0;
+
 bool o1 = false;
 bool o2 = false;
 bool o3 = false;
@@ -28,21 +32,30 @@ bool o4 = false;
 
 void setup()
 {
-	port.Open("/dev/ttyUSB0");
+	port.Open("/dev/ttyUSB1");
 	port.SetBaudRate(LibSerial::BaudRate::BAUD_9600);
 	port.SetCharacterSize(LibSerial::CharacterSize::CHAR_SIZE_8);
 	port.SetParity(LibSerial::Parity::PARITY_NONE);
 	port.SetStopBits(LibSerial::StopBits::STOP_BITS_1);
-
-	p = Pose();
-
 }
 
 void process_data(char type, char *data)
 {
 	if (type == 'd')
 	{
-		dist = std::stof(data);
+		dist = std::stof(data) / 100;
+	}
+	if (type == 'p')
+	{
+		p.t = std::stof(data);
+	}
+	if (type == 'x')
+	{
+		p.x = std::stof(data);
+	}
+	if (type == 'y')
+	{
+		p.y = std::stof(data);
 	}
 	if (type == '1')
 	{
@@ -101,27 +114,40 @@ void apply_data_on_grid()
 	// 	grid_apply_hit_color(dist, 0, p, "green");
 	// }
 	// else
-	// {
-	grid_apply_hit(dist, 0, p);
-	// }
+	// { }
+
+	if (dist != 4.0)
+	{
+		grid_apply_hit(dist, 0.0, p);
+	}
+
 	m = grid_view(p, {});
 }
 
 void read_data()
 {
-	// just read data first
 	int i = 0;
-	while (i < 100)
+	while (i < 2000)
 	{
 		read();
 		cout << dist << endl;
-		cout << o1 << endl;
-		cout << o2 << endl;
-		cout << o3 << endl;
+		cout << p.t;
+		cout << ",";
+		cout << p.x;
+		cout << ",";
+		cout << p.y << endl;
+		cout << o1;
+		cout << ",";
+		cout << o2;
+		cout << ",";
+		cout << o3;
+		cout << ",";
 		cout << o4 << endl;
 		apply_data_on_grid();
 		i++;
 	}
+
+	cout << i << endl;
 }
 
 int main(int argc, char *argv[])
@@ -130,8 +156,7 @@ int main(int argc, char *argv[])
 
 	read_data();
 
-	// when you get some data run viz
-	viz_run(0, NULL); 
 	viz_show(m);
-	return 0;
+
+	return viz_run(0, NULL);
 }
