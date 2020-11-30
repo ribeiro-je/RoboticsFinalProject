@@ -69,6 +69,8 @@ http://gazebosim.org/tutorials?tut=led_plugin&cat=plugins
 
 http://gazebosim.org/tutorials?tut=flashlight_plugin&cat=plugins
 
+https://github.com/osrf
+
 Equipment:
 https://www.makeblock.com/steam-kits/mbot-ranger
 
