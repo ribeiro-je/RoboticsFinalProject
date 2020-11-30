@@ -15,6 +15,13 @@ MeUltrasonicSensor ultrasonic_8(9);
 MeBuzzer buzzer;
 Pixy2I2C pixy;
 
+double pos_t = 0.0;
+double x = 0.0;
+double y = 0.0;
+
+const double STEP = 0.1;
+const double THETA_INCR = 0.1;
+
 
 void isr_process_encoder1(void)
 {
@@ -50,6 +57,39 @@ void _delay(float seconds)
     _loop();
 }
 
+void set_x_y_pos() {
+
+  if (pos_t < 1.7 && pos_t > 1.3 ) {
+    y += STEP;
+  }
+  else if (pos_t > -1.7 && pos_t < -1.3) {
+    y -= STEP;
+  }
+  else if (pos_t < 0.2 && pos_t > -0.2) {
+    x += STEP;
+  }
+  else if (pos_t > 2.9 || pos_t < -2.9) {
+    x -= STEP;
+  }
+  // --------
+  else if (pos_t < 1.05 && pos_t > 0.45) {
+    x += STEP;
+    y += STEP;
+  }
+  else if (pos_t < -0.45 && pos_t > -1.05) {
+    x += STEP;
+    y -= STEP;
+  }
+  else if (pos_t < -2.62 && pos_t > -2.02) {
+    x -= STEP;
+    y -= STEP;
+  }
+  else if (pos_t < 2.62 && pos_t > 2.02) {
+    x -= STEP;
+    y += STEP;
+  }
+}
+
 void move(int direction, int speed)
 {
   int leftSpeed = 0;
@@ -66,16 +106,26 @@ void move(int direction, int speed)
   }
   else if (direction == 3)
   {
+    pos_t += THETA_INCR;
+    if (pos_t > 3.14) {
+      pos_t = fmod(pos_t, 3.14) - 3.14;
+    }
     leftSpeed = -speed;
     rightSpeed = -speed;
   }
   else if (direction == 4)
   {
+    pos_t -= THETA_INCR;
+    if (pos_t < -3.14) {
+      pos_t = fmod(pos_t, -3.14) + 3.14;
+    }
     leftSpeed = speed;
-    rightSpeed = speed;
+    rightSpeed = speed;s
   }
   Encoder_1.setTarPWM(leftSpeed);
   Encoder_2.setTarPWM(rightSpeed);
+
+  set_x_y_pos();
 }
 
 void setup()
@@ -94,8 +144,8 @@ void setup()
   attachInterrupt(Encoder_1.getIntNum(), isr_process_encoder1, RISING);
   attachInterrupt(Encoder_2.getIntNum(), isr_process_encoder2, RISING);
 
+  pos_t = 0.0;
   pixy.init();
-
 }
 
 void _loop()
@@ -122,8 +172,16 @@ bool is_object_detected(int sign)
 }
 
 void process_data() {
+  
   Serial.print("d");
   Serial.println(ultrasonic_8.distanceCm());
+  Serial.print("p");
+  Serial.println(pos_t);
+  Serial.print("x");
+  Serial.println(x);
+  Serial.print("y");
+  Serial.println(y);
+
   Serial.print("1");
   bool is_1_detected = is_object_detected(1);
   Serial.println(is_1_detected);
@@ -155,20 +213,20 @@ void process_data() {
     //    Encoder_2.setTarPWM(0);
     //    _delay(5);
   }
-  else if (is_3_detected)
-  {
-    rgbled_0.setColor(0, 146, 73, 0);
-    rgbled_0.show();
-    //    buzzer.tone(500, 1 * 1000);
-    //    Encoder_1.setTarPWM(0);
-    //    Encoder_2.setTarPWM(0);
-    //    _delay(5);
-  }
+  //  else/ if (is_3_detected)
+  //  {/
+  //  rgbled_0./setColor(0, 146, 73, 0);
+  //  rgbled/_0.show();
+  //    buzzer.tone(500, 1 * 1000);
+  //    Encoder_1.setTarPWM(0);
+  //    Encoder_2.setTarPWM(0);
+  //    _delay(5);
+  //  }/
   else if (is_4_detected)
   {
     rgbled_0.setColor(0, 72, 243, 0);
     rgbled_0.show();
-    //    buzzer.(700, 1 * 1000);
+    //    buzzer.tone(700, 1 * 1000);
     //    Encoder_1.setTarPWM(0);
     //    Encoder_2.setTarPWM(0);
     //    _delay(5);
@@ -181,20 +239,16 @@ void process_data() {
 
 void loop()
 {
-  //  _loop();
-  //
-  //  if (ultrasonic_8.distanceCm() < 15)
-  //  {
-  //    move(3, 50 / 100.0 * 255);
-  //    _delay(1);
-  //    move(2, 0);
-  //  }
-  //  else
-  //  {
-  //    move(1, 70 / 100.0 * 255);
-  //  }
+  if (ultrasonic_8.distanceCm() < 20)
+  {
+    move(3, 55 / 100.0 * 255);
+  }
+  else
+  {
+    move(1, 55 / 100.0 * 255);
+  }
+
+  _loop();
 
   process_data();
-
-  delay(500);
 }

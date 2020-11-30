@@ -139,6 +139,7 @@ draw_brush_color(GtkWidget *widget,
 
     /* Paint to the surface, where we store our state */
     cr = cairo_create(surface);
+
     cairo_set_source_rgb(cr, pix[0] / 255.0, pix[1] / 255.0, pix[2] / 255.0);
 
     cairo_rectangle(cr, x - 3, y - 3, 6, 6);

@@ -5,7 +5,8 @@ This will be preformed both in simulation on Gazebo and using a physical Robot.
 
 For mapping and exploration we will be using the technique described in Improved Backtracking Algorithm for Efficient Sensor-based Random Tree Exploration (SRT). The map will be an occupancy map which SRT uses to create its exploration.
 
-### To Run
+## To Run
+### Gazebo
 Have gazebo, adrino IDE, and opencv installed on your machine. Two terminal windows are required. Have open open at the top level directory and one open at brain. Do:
 
 ```
@@ -20,6 +21,21 @@ Brain
 ```
 
 because the .world file hard coded paths these may need to be modified to work on your machine.
+
+### Ranger Mbot
+
+Go to mbot directory and upload control_prorgam.ino onto your bot with the wire included in the kit.
+Go to viz_run directory. Do: 
+
+```
+make clean && make
+```
+
+Having mbot connected to your computer, run: 
+
+```
+./main
+```
 
 ### Repo Structure
 - brain
@@ -58,5 +74,9 @@ https://pixycam.com/
 
 Professors Base Code:
 https://github.com/NatTuck/cs5335hw-gazebo
+
+Other:
+https://stackoverflow.com/questions/9370945/c-help-finding-the-max-value-in-a-map
+
 
 
