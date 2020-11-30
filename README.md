@@ -59,4 +59,8 @@ https://pixycam.com/
 Professors Base Code:
 https://github.com/NatTuck/cs5335hw-gazebo
 
+Other:
+https://stackoverflow.com/questions/9370945/c-help-finding-the-max-value-in-a-map
+
+
 

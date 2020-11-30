@@ -501,7 +501,37 @@ std::vector<coords> explore(float x0, float y0)
         // the start is always valuable
         // enchanced bc takes shortest path and does not retrace steps
         cout << "No more safe paths - going back to valuable node" << endl;
-        return grid_find_path(x0, y0, 0, 0);
+        std::map<coords, int> nodeValue; // coord to its value
+        for (auto node : grid)
+        {
+            auto neighbors = neibs(node.first);
+            int value = neighbors.size(); // more neighbors = more value
+
+            for (auto n : neighbors)
+            { // safe neighbors = more value
+                if (isSafe(n))
+                {
+                    value++;
+                }
+            }
+            nodeValue[node.first] = value; //insert value since this is in order we can get max then use that index to get the node
+        }
+
+        // max element in map : https://stackoverflow.com/questions/9370945/c-help-finding-the-max-value-in-a-map
+        float currentMax = 0;
+        coords arg_max = key(0.0, 0.0);
+        for (auto it = nodeValue.cbegin(); it != nodeValue.cend(); ++it)
+        {
+            if (it->second > currentMax)
+            {
+                arg_max = it->first;
+                currentMax = it->second;
+            }
+        }
+
+        int xx = arg_max.first;
+        int yy = arg_max.second;
+        return grid_find_path(x0, y0, xx, yy);
     }
 
     coords cell1 = randomNiebCoord;
