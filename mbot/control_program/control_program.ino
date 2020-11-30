@@ -19,6 +19,8 @@ double pos_t = 0.0;
 double x = 0.0;
 double y = 0.0;
 
+const double STEP = 0.1;
+
 
 void isr_process_encoder1(void)
 {
@@ -55,21 +57,35 @@ void _delay(float seconds)
 }
 
 void set_x_y_pos() {
-  if (pos_t <= 3.14 && pos_t > 1.5 ) {
-    x -= 0.1;
-    y += 0.1;
+
+  if (pos_t < 1.7 && pos_t > 1.3 ) {
+    y += STEP;
   }
-  else if (pos_t <= 1.5 && pos_t > 0.0) {
-    x += 0.1;
-    y += 0.1;
+  else if (pos_t > -1.7 && pos_t < -1.3) {
+    y -= STEP;
   }
-  else if (pos_t <= 0.0 && pos_t > -1.5) {
-    x += 0.1;
-    y -= 0.1;
+  else if (pos_t < 0.2 && pos_t > -0.2) {
+    x += STEP;
   }
-  else if (pos_t <= -1.5 && pos_t > -3.14) {
-    x += 0.1;
-    y -= 0.1;
+  else if (pos_t > 2.9 || pos_t < -2.9) {
+    x -= STEP;
+  }
+  // --------
+  else if (pos_t < 1.05 && pos_t > 0.45) {
+    x += STEP;
+    y += STEP;
+  }
+  else if (pos_t < -0.45 && pos_t > -1.05) {
+    x += STEP;
+    y -= STEP;
+  }
+  else if (pos_t < -2.62 && pos_t > -2.02) {
+    x -= STEP;
+    y -= STEP;
+  }
+  else if (pos_t < 2.62 && pos_t > 2.02) {
+    x -= STEP;
+    y += STEP;
   }
 }
 
@@ -222,15 +238,15 @@ void process_data() {
 void loop()
 {
 
-  if (ultrasonic_8.distanceCm() < 50)
+  if (ultrasonic_8.distanceCm() < 20)
   {
-    move(3, 50 / 100.0 * 255);
+    move(3, 55/ 100.0 * 255);
   }
   else
   {
-    move(1, 50 / 100.0 * 255);
+    move(1, 55 / 100.0 * 255);
   }
-  
+
   _loop();
 
   process_data();

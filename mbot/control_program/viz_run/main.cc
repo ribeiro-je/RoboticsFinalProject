@@ -109,14 +109,14 @@ void apply_data_on_grid()
 	// {
 	// 	grid_apply_hit_color(dist, 0, p, "brown");
 	// }
-	// if (o4)
-	// {
-	// 	grid_apply_hit_color(dist, 0, p, "green");
-	// }
+	if (o4)
+	{
+		grid_apply_hit_color(dist, 0, p, "green");
+	}
 	// else
 	// { }
 
-	if (dist != 4.0)
+	if (dist < 3.9)
 	{
 		grid_apply_hit(dist, 0.0, p);
 	}
@@ -130,6 +130,7 @@ void read_data()
 	while (i < 2000)
 	{
 		read();
+		cout << "~~~~~~~~~~~~~~" << endl;
 		cout << dist << endl;
 		cout << p.t;
 		cout << ",";
