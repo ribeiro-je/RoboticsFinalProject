@@ -463,7 +463,7 @@ std::vector<coords> explore(float x0, float y0)
     auto randomNiebCoord = key(x0, y0);
 
     // get a random nieghbor up to 5 away
-    int randChange = rand() % 2;
+    int randChange = rand() % 5;
 
     if (rand() % 2)
     {
@@ -471,8 +471,6 @@ std::vector<coords> explore(float x0, float y0)
     }
     else
     {
-        randomNiebCoord.first = randomNiebCoord.first - randChange;
-
         randomNiebCoord.second = randomNiebCoord.second + randChange;
     }
 
