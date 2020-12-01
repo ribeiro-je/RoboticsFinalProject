@@ -111,7 +111,6 @@ void callback(Robot *robot)
             foundRedBackPack = true;
 
             // stop - object found!:)
-            robot->set_vel(0, 0);
             return;
         }
         if ((object == "orange" || object == "white") && !foundOrangeCone)
@@ -124,7 +123,6 @@ void callback(Robot *robot)
             foundOrangeCone = true;
 
             // stop - object found!:)
-            robot->set_vel(0, 0);
             return;
         }
         if (object == "brown" && !foundBox)
@@ -137,7 +135,6 @@ void callback(Robot *robot)
             foundBox = true;
 
             // stop - object found!:)
-            robot->set_vel(0, 0);
             return;
         }
         if (object == "blue" && !foundBlueCylinder)
@@ -150,7 +147,6 @@ void callback(Robot *robot)
             foundBlueCylinder = true;
 
             // stop - object found!:)
-            robot->set_vel(0, 0);
             return;
         }
     }
