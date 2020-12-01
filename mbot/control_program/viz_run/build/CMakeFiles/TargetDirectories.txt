@@ -1,3 +1,0 @@
-/home/margarita/Desktop/RoboticsFinalProject/mbot/control_program/viz_run/build/CMakeFiles/rebuild_cache.dir
-/home/margarita/Desktop/RoboticsFinalProject/mbot/control_program/viz_run/build/CMakeFiles/edit_cache.dir
-/home/margarita/Desktop/RoboticsFinalProject/mbot/control_program/viz_run/build/CMakeFiles/main.dir
