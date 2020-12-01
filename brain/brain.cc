@@ -183,7 +183,7 @@ void callback(Robot *robot)
     if (abs(ang) > .5)
     {
         cout << "here 1" << endl;
-        robot->set_vel(+trn, -trn);
+        robot->set_vel(-trn, +trn);
         return;
     }
 
