@@ -220,7 +220,7 @@ void path_thread(Robot *robot)
         mtx.lock();
         path = pathcopy;
         mtx.unlock();
-        sleep(.0001);
+        sleep(16);
     }
 }
 
