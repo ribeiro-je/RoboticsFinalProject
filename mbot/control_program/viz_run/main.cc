@@ -7,7 +7,6 @@
 #include <csignal>
 #include <opencv2/core/mat.hpp>
 #include <unistd.h>
-#include <thread>
 
 #include "viz.hh"
 #include "grid.hh"
@@ -32,7 +31,7 @@ bool o4 = false;
 
 void setup()
 {
-	port.Open("/dev/ttyUSB1");
+	port.Open("/dev/ttyUSB0");
 	port.SetBaudRate(LibSerial::BaudRate::BAUD_9600);
 	port.SetCharacterSize(LibSerial::CharacterSize::CHAR_SIZE_8);
 	port.SetParity(LibSerial::Parity::PARITY_NONE);
@@ -59,19 +58,35 @@ void process_data(char type, char *data)
 	}
 	if (type == '1')
 	{
-		data[0] == '1' ? o1 = true : o1 = false;
+		if (!o1 && data[0] == '1' && dist < 1.0)
+		{
+			o1 = true;
+			grid_apply_hit_color(dist, 0, p, "blue");
+		}
 	}
 	if (type == '2')
 	{
-		data[0] == '1' ? o2 = true : o2 = false;
+		if (!o2 && data[0] == '1' && dist < 1.0)
+		{
+			o2 = true;
+			grid_apply_hit_color(dist, 0, p, "red");
+		}
 	}
 	if (type == '3')
 	{
-		data[0] == '1' ? o3 = true : o3 = false;
+		if (!o3 && data[0] == '1'&&  dist < 1.0)
+		{
+			o3 = true;
+			grid_apply_hit_color(dist, 0, p, "brown");
+		}
 	}
 	if (type == '4')
 	{
-		data[0] == '1' ? o4 = true : o4 = false;
+		if (!o4 && data[0] == '1' && dist < 1.0)
+		{
+			o4 = true;
+			grid_apply_hit_color(dist, 0, p, "green");
+		}
 	}
 }
 
@@ -97,26 +112,7 @@ void read()
 
 void apply_data_on_grid()
 {
-	// if (o1)
-	// {
-	// 	grid_apply_hit_color(dist, 0, p, "blue");
-	// }
-	// if (o2)
-	// {
-	// 	grid_apply_hit_color(dist, 0, p, "red");
-	// }
-	// if (o3)
-	// {
-	// 	grid_apply_hit_color(dist, 0, p, "brown");
-	// }
-	if (o4)
-	{
-		grid_apply_hit_color(dist, 0, p, "green");
-	}
-	// else
-	// { }
-
-	if (dist < 3.9)
+	if (dist < 1.5)
 	{
 		grid_apply_hit(dist, 0.0, p);
 	}
@@ -127,23 +123,23 @@ void apply_data_on_grid()
 void read_data()
 {
 	int i = 0;
-	while (i < 2000)
+	while (!o1 && !o2 && !o3 && !o4)
 	{
 		read();
+
 		cout << "~~~~~~~~~~~~~~" << endl;
-		cout << dist << endl;
-		cout << p.t;
-		cout << ",";
-		cout << p.x;
-		cout << ",";
-		cout << p.y << endl;
-		cout << o1;
-		cout << ",";
-		cout << o2;
-		cout << ",";
-		cout << o3;
-		cout << ",";
-		cout << o4 << endl;
+		cout << "Distance to hit " << dist << endl;
+		cout << "Robot theta " << p.t;
+		cout << ", ";
+		cout << "x pos " << p.x;
+		cout << ", ";
+		cout << "y pos " << p.y << endl;
+		cout << "Objct presence:" << endl;
+		cout << "Object 1: " << o1 << endl;
+		cout << "Object 2: " << o2 << endl;
+		cout << "Object 3: " << o3 << endl;
+		cout << "Object 4: " << o4 << endl;
+
 		apply_data_on_grid();
 		i++;
 	}
@@ -154,9 +150,7 @@ void read_data()
 int main(int argc, char *argv[])
 {
 	setup();
-
 	read_data();
-
 	viz_show(m);
 
 	return viz_run(0, NULL);
