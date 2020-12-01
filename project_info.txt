@@ -21,8 +21,8 @@ Karan worked on adding the led and plugin for the robot.
 presentation notes / slides?
 
 Github: https://github.com/ribeiro-je/RoboticsFinalProject
-Presentation Video:
-Demo Video:
+Presentation Video: https://youtu.be/V1ZnrPw4Ijk
+Demo Video: https://youtu.be/AGg-_IhSsgY
 
 5. Which component do you think was the most innately difficult to build?
 - It was difficult to make Arduino communicate and get data from PixyCam2 as there is little documentation on how to attach it to mbot and which interface to use.
@@ -33,7 +33,7 @@ Demo Video:
 - Additionally it was difficult to work with Gazebo as there is little documentation and it is taxing on our laptops to run. It would often glitch and send the robot flying as well.
 
 6. What's the URL to your Demo video?
-
+https://youtu.be/AGg-_IhSsgY
 
 7. What's the URL to your Presentation video?
 https://youtu.be/V1ZnrPw4Ijk
