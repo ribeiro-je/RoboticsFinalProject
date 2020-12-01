@@ -486,6 +486,7 @@ std::vector<coords> explore(float x0, float y0)
         }
         else
         {
+            randomNiebCoord.first = randomNiebCoord.first - randChange;
             randomNiebCoord.second = randomNiebCoord.second + randChange;
         }
         i++;
