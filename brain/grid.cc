@@ -574,6 +574,7 @@ std::vector<coords> explore(float x0, float y0)
             queue.push(SearchCell(nn, score));
         }
     }
+    path.clear();
 
     if (!done)
     {
