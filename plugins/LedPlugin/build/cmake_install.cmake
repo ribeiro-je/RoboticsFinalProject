@@ -1,4 +1,4 @@
-# Install script for directory: /home/karanr/karan_project/RoboticsFinalProject/plugins/LedPlugin
+# Install script for directory: /home/jenny/Documents/RoboticsFinalProject/plugins/LedPlugin
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/karanr/karan_project/RoboticsFinalProject/plugins/LedPlugin/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/jenny/Documents/RoboticsFinalProject/plugins/LedPlugin/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

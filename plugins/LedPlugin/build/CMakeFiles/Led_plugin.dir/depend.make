@@ -132,6 +132,7 @@ CMakeFiles/Led_plugin.dir/LedPlugin.cc.o: /usr/include/gazebo-11/gazebo/msgs/msg
 CMakeFiles/Led_plugin.dir/LedPlugin.cc.o: /usr/include/gazebo-11/gazebo/msgs/packet.pb.h
 CMakeFiles/Led_plugin.dir/LedPlugin.cc.o: /usr/include/gazebo-11/gazebo/msgs/param.pb.h
 CMakeFiles/Led_plugin.dir/LedPlugin.cc.o: /usr/include/gazebo-11/gazebo/msgs/param_v.pb.h
+CMakeFiles/Led_plugin.dir/LedPlugin.cc.o: /usr/include/gazebo-11/gazebo/msgs/performance_metrics.pb.h
 CMakeFiles/Led_plugin.dir/LedPlugin.cc.o: /usr/include/gazebo-11/gazebo/msgs/physics.pb.h
 CMakeFiles/Led_plugin.dir/LedPlugin.cc.o: /usr/include/gazebo-11/gazebo/msgs/pid.pb.h
 CMakeFiles/Led_plugin.dir/LedPlugin.cc.o: /usr/include/gazebo-11/gazebo/msgs/planegeom.pb.h

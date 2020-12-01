@@ -1,5 +1,5 @@
 
-LIB := libLedPlugin.so
+LIB := libLed_plugin.so
 
 all: $(LIB)
 
