@@ -19,8 +19,16 @@ double pos_t = 0.0;
 double x = 0.0;
 double y = 0.0;
 
+long randNumber;
+int count = 1;
+
 const double STEP = 0.1;
 const double THETA_INCR = 0.1;
+
+bool was_1_detected = false;
+bool was_2_detected = false;
+bool was_3_detected = false;
+bool was_4_detected = false;
 
 
 void isr_process_encoder1(void)
@@ -59,35 +67,35 @@ void _delay(float seconds)
 
 void set_x_y_pos() {
 
-  if (pos_t < 1.7 && pos_t > 1.3 ) {
+  if (pos_t < 1.8 && pos_t > 1.2 ) {
     y += STEP;
   }
-  else if (pos_t > -1.7 && pos_t < -1.3) {
+  else if (pos_t > -1.8 && pos_t < -1.2) {
     y -= STEP;
   }
-  else if (pos_t < 0.2 && pos_t > -0.2) {
+  else if (pos_t < 0.3 && pos_t > -0.3) {
     x += STEP;
   }
-  else if (pos_t > 2.9 || pos_t < -2.9) {
+  else if (pos_t > 2.8 || pos_t < -2.8) {
     x -= STEP;
   }
-  // --------
-  else if (pos_t < 1.05 && pos_t > 0.45) {
-    x += STEP;
-    y += STEP;
-  }
-  else if (pos_t < -0.45 && pos_t > -1.05) {
-    x += STEP;
-    y -= STEP;
-  }
-  else if (pos_t < -2.62 && pos_t > -2.02) {
-    x -= STEP;
-    y -= STEP;
-  }
-  else if (pos_t < 2.62 && pos_t > 2.02) {
-    x -= STEP;
-    y += STEP;
-  }
+  /// --------
+  //  else if (pos_t < 1.05 && pos_t > 0.45) {
+  //    x += STEP;
+  //    y += STEP;
+  //  }
+  //  else if (pos_t < -0.45 && pos_t > -1.05) {
+  //    x += STEP;
+  //    y -= STEP;
+  //  }
+  //  else if (pos_t < -2.62 && pos_t > -2.02) {
+  //    x -= STEP;
+  //    y -= STEP;
+  //  }
+  //  else if (pos_t < 2.62 && pos_t > 2.02) {
+  //    x -= STEP;
+  //    y += STEP;
+  //  }
 }
 
 void move(int direction, int speed)
@@ -120,7 +128,7 @@ void move(int direction, int speed)
       pos_t = fmod(pos_t, -3.14) + 3.14;
     }
     leftSpeed = speed;
-    rightSpeed = speed;s
+    rightSpeed = speed;
   }
   Encoder_1.setTarPWM(leftSpeed);
   Encoder_2.setTarPWM(rightSpeed);
@@ -140,6 +148,7 @@ void setup()
   TCCR2B = _BV(CS21);
 
   buzzer.setpin(45);
+  randomSeed(analogRead(0));
 
   attachInterrupt(Encoder_1.getIntNum(), isr_process_encoder1, RISING);
   attachInterrupt(Encoder_2.getIntNum(), isr_process_encoder2, RISING);
@@ -172,7 +181,7 @@ bool is_object_detected(int sign)
 }
 
 void process_data() {
-  
+
   Serial.print("d");
   Serial.println(ultrasonic_8.distanceCm());
   Serial.print("p");
@@ -195,41 +204,45 @@ void process_data() {
   bool is_4_detected = is_object_detected(4);
   Serial.println(is_4_detected);
 
-  if (is_1_detected)
+  if (is_1_detected && !was_1_detected)
   {
+    was_1_detected = true;
     rgbled_0.setColor(0, 0, 93, 255);
     rgbled_0.show();
-    //    buzzer.tone(100, 1 * 1000);
-    //    Encoder_1.setTarPWM(0);
-    //    Encoder_2.setTarPWM(0);
-    //    _delay(5);
+    buzzer.tone(100, 1 * 1000);
+    Encoder_1.setTarPWM(0);
+    Encoder_2.setTarPWM(0);
+    _delay(1);
   }
-  else if (is_2_detected)
+  else if (is_2_detected && !was_2_detected)
   {
+    was_2_detected = true;
     rgbled_0.setColor(0, 255, 0, 0);
     rgbled_0.show();
-    //    buzzer.tone(300, 1 * 1000);
-    //    Encoder_1.setTarPWM(0);
-    //    Encoder_2.setTarPWM(0);
-    //    _delay(5);
+    buzzer.tone(300, 1 * 1000);
+    Encoder_1.setTarPWM(0);
+    Encoder_2.setTarPWM(0);
+    _delay(1);
   }
-  //  else/ if (is_3_detected)
-  //  {/
-  //  rgbled_0./setColor(0, 146, 73, 0);
-  //  rgbled/_0.show();
-  //    buzzer.tone(500, 1 * 1000);
-  //    Encoder_1.setTarPWM(0);
-  //    Encoder_2.setTarPWM(0);
-  //    _delay(5);
-  //  }/
-  else if (is_4_detected)
+  else if (is_3_detected && !was_3_detected)
   {
+    was_3_detected = true;
+    rgbled_0.setColor(0, 146, 73, 0);
+    rgbled_0.show();
+    buzzer.tone(500, 1 * 1000);
+    Encoder_1.setTarPWM(0);
+    Encoder_2.setTarPWM(0);
+    _delay(1);
+  }
+  else if (is_4_detected && !was_4_detected)
+  {
+    was_4_detected = true;
     rgbled_0.setColor(0, 72, 243, 0);
     rgbled_0.show();
-    //    buzzer.tone(700, 1 * 1000);
-    //    Encoder_1.setTarPWM(0);
-    //    Encoder_2.setTarPWM(0);
-    //    _delay(5);
+    buzzer.tone(700, 1 * 1000);
+    Encoder_1.setTarPWM(0);
+    Encoder_2.setTarPWM(0);
+    _delay(1);
   }
   else {
     rgbled_0.setColor(0, 0, 0, 0);
@@ -239,16 +252,24 @@ void process_data() {
 
 void loop()
 {
-  if (ultrasonic_8.distanceCm() < 20)
+   randNumber = random(0, 1);
+  if (ultrasonic_8.distanceCm() < 25)
   {
-    move(3, 55 / 100.0 * 255);
+    if (randNumber == 0.0) {
+      move(3, 55 / 100.0 * 255);
+    }
+    else {
+      move(4, 55 / 100.0 * 255);
+    }
   }
+
   else
   {
-    move(1, 55 / 100.0 * 255);
+    move(1, 60 / 100.0 * 255);
   }
 
   _loop();
 
+  count += 1;
   process_data();
 }
